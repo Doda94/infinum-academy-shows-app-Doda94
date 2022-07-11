@@ -6,4 +6,6 @@
     <string name="login">Login</string>
     <string name="login_text">In order to continue please log in.</string>
     <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login</string>
 </resources>

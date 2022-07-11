@@ -14,4 +14,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="OutlinedTextInputLayoutBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
+        <item name="boxStrokeColor">#fff</item>
+    </style>
 </resources>

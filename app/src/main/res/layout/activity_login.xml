@@ -68,7 +68,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/email_text_field"
         android:hint="@string/email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textColorHint="@color/white"
+        style="@style/OutlinedTextInputLayoutBox"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="477dp"
@@ -81,10 +82,43 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_text_field"
+        android:hint="@string/password"
+        android:textColorHint="@color/white"
+        style="@style/OutlinedTextInputLayoutBox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="556dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/white">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
 
-    
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_button"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:backgroundTint="@color/button_disabled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/login_button"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:textStyle="bold"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
