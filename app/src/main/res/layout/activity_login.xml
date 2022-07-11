@@ -120,8 +120,7 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:cornerRadius="21.5dp"
-        android:backgroundTint="@color/white"
-        android:enabled="false"/>
+        android:backgroundTint="@color/white"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
