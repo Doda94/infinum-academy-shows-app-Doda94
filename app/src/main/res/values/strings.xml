@@ -8,4 +8,6 @@
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="login_button">Login</string>
+    <string name="email_error">email error</string>
+    <string name="password_error">password error</string>
 </resources>
