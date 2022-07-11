@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Shows</string>
+    <string name="top_left_illustration">Top left illustration</string>
+    <string name="top_right_illustration">Top right illustration</string>
+    <string name="logo_horizontal_white">Logo horizontal white</string>
+    <string name="login">Login</string>
+    <string name="login_text">In order to continue please log in.</string>
+    <string name="email">E-mail</string>
+</resources>
