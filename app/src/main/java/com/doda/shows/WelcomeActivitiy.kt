@@ -16,10 +16,9 @@ class WelcomeActivitiy : AppCompatActivity() {
         setContentView(binding.root)
 
         val username = intent.getStringExtra("username")
-        val welcomeMessage = R.string.welcome.toString() + ", " + username + "!"
+        val welcomeMessage = getString(R.string.welcome) + ", " + username + "!"
 
         binding.welcomeText.setText(welcomeMessage)
-
 
     }
 }

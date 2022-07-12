@@ -30,13 +30,13 @@ class LoginActivity : AppCompatActivity() {
     var password_valid = false
 
     fun disableButton(button: Button) {
-        binding.loginButton.isEnabled = false
-        binding.loginButton.alpha = 0.5F
+        button.isEnabled = false
+        button.alpha = 0.5F
     }
 
     fun enableButton(button: Button) {
-        binding.loginButton.isEnabled = true
-        binding.loginButton.alpha = 1F
+        button.isEnabled = true
+        button.alpha = 1F
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +53,9 @@ class LoginActivity : AppCompatActivity() {
                 enableButton(binding.loginButton)
             } else {
                 disableButton(binding.loginButton)
+            }
+            if (!email_valid) {
+                binding.emailEditText.setError(getString(R.string.email_error))
             }
         }
 
