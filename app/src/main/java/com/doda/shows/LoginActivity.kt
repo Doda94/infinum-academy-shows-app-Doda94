@@ -10,9 +10,9 @@ import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
 
-    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+    private val emailAddressPattern = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -22,19 +22,19 @@ class LoginActivity : AppCompatActivity() {
                 ")+"
     )
 
-    fun isEmailValid(str: String): Boolean {
-        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
+    private fun isEmailValid(str: String): Boolean {
+        return emailAddressPattern.matcher(str).matches()
     }
 
-    var email_valid = false
-    var password_valid = false
+    private var emailValid = false
+    private var passwordValid = false
 
-    fun disableButton(button: Button) {
+    private fun disableButton(button: Button) {
         button.isEnabled = false
         button.alpha = 0.5F
     }
 
-    fun enableButton(button: Button) {
+    private fun enableButton(button: Button) {
         button.isEnabled = true
         button.alpha = 1F
     }
@@ -47,21 +47,21 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         disableButton(binding.loginButton)
 
-        binding.emailEditText.doOnTextChanged { text, start, before, count ->
-            email_valid = isEmailValid(binding.emailEditText.text.toString())
-            if (email_valid && password_valid) {
+        binding.emailEditText.doOnTextChanged { _, _, _, _ ->
+            emailValid = isEmailValid(binding.emailEditText.text.toString())
+            if (emailValid && passwordValid) {
                 enableButton(binding.loginButton)
             } else {
                 disableButton(binding.loginButton)
             }
-            if (!email_valid) {
+            if (!emailValid) {
                 binding.emailEditText.setError(getString(R.string.email_error))
             }
         }
 
-        binding.passwordEditText.doOnTextChanged { text, start, before, count ->
-            password_valid = binding.passwordEditText.text.toString().length >= 6
-            if (email_valid && password_valid) {
+        binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
+            passwordValid = binding.passwordEditText.text.toString().length >= 6
+            if (emailValid && passwordValid) {
                 enableButton(binding.loginButton)
             } else {
                 disableButton(binding.loginButton)
