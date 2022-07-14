@@ -58,9 +58,11 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 disableButton(binding.loginButton)
             }
-            if (!emailValid) {
-                binding.emailEditText.error = getString(R.string.email_error)
-            }
+            //if (!emailValid) {
+                // Breaks scrolling for some reason
+                // TODO : fix login button when this enabled
+                //binding.emailEditText.error = getString(R.string.email_error)
+            //}
         }
 
         binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
