@@ -1,7 +1,9 @@
 package com.doda.shows
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
@@ -11,6 +13,8 @@ import java.util.regex.Pattern
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+
+    private val passwordValidLength = 6
 
     private val emailAddressPattern = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -47,20 +51,20 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         disableButton(binding.loginButton)
 
-        binding.emailEditText.doOnTextChanged { _, _, _, _ ->
-            emailValid = isEmailValid(binding.emailEditText.text.toString())
+        binding.emailEditText.doOnTextChanged { text, _, _, _ ->
+            emailValid = isEmailValid(text.toString())
             if (emailValid && passwordValid) {
                 enableButton(binding.loginButton)
             } else {
                 disableButton(binding.loginButton)
             }
             if (!emailValid) {
-                binding.emailEditText.setError(getString(R.string.email_error))
+                binding.emailEditText.error = getString(R.string.email_error)
             }
         }
 
-        binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
-            passwordValid = binding.passwordEditText.text.toString().length >= 6
+        binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
+            passwordValid = text.toString().length >= passwordValidLength
             if (emailValid && passwordValid) {
                 enableButton(binding.loginButton)
             } else {
@@ -69,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginButton.setOnClickListener {
-            val intent = Intent(this, WelcomeActivitiy::class.java)
+            val intent = Intent(this, WelcomeActivity::class.java)
             intent.putExtra("username", binding.emailEditText.text.toString().substringBefore("@"))
             startActivity(intent)
         }

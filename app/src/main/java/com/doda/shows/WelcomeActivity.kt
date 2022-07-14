@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.doda.shows.databinding.ActivityWelcomeBinding
 
-class WelcomeActivitiy : AppCompatActivity() {
+class WelcomeActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityWelcomeBinding
+    private lateinit var binding: ActivityWelcomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,7 @@ class WelcomeActivitiy : AppCompatActivity() {
         val username = intent.getStringExtra("username")
         val welcomeMessage = getString(R.string.welcome) + ", " + username + "!"
 
-        binding.welcomeText.setText(welcomeMessage)
+        binding.welcomeText.text = welcomeMessage
 
     }
 }
