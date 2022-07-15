@@ -10,4 +10,5 @@
     <string name="login_button">Login</string>
     <string name="email_error">Invalid email address</string>
     <string name="welcome">Welcome</string>
+    <string name="sample_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque semper, nulla sit amet faucibus laoreet, felis ante aliquam tortor, vitae dapibus nunc orci quis dui. Nam eu sodales augue. Curabitur scelerisque diam in sapien feugiat, ac commodo ante scelerisque. Quisque quis dolor nec tortor interdum posuere ac eget nisl. Sed nec magna libero. Curabitur varius vestibulum justo vel consectetur. Pellentesque eget finibus lacus. Sed fringilla gravida lacus, eu posuere tellus elementum non. Nam eget ipsum euismod, mattis tortor ac, rhoncus augue. Vivamus ornare pulvinar elit vitae lobortis. Curabitur condimentum ex at ex varius facilisis.</string>
 </resources>

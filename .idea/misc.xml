@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Doda/Desktop/infinum-academy-shows-app-Doda94/app/src/main/res/layout/activity_login.xml" value="0.22530996152201796" />
+        <entry key="..\:/Users/Doda/Desktop/infinum-academy-shows-app-Doda94/app/src/main/res/layout/activity_shows.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Doda/Desktop/infinum-academy-shows-app-Doda94/app/src/main/res/layout/activity_welcome.xml" value="0.1" />
+        <entry key="..\:/Users/Doda/Desktop/infinum-academy-shows-app-Doda94/app/src/main/res/layout/view_show_item.xml" value="0.2" />
       </map>
     </option>
   </component>
