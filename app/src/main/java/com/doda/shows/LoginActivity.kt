@@ -1,6 +1,5 @@
 package com.doda.shows
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -72,11 +71,13 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.loginButton.setOnClickListener {
-            val intent = Intent(this, WelcomeActivity::class.java)
-            intent.putExtra("username", binding.emailEditText.text.toString().substringBefore("@"))
-            startActivity(intent)
-        }
+
+        // TODO: Make this work for the new activity
+//        binding.loginButton.setOnClickListener {
+//            val intent = Intent(this, WelcomeActivity::class.java)
+//            intent.putExtra("username", binding.emailEditText.text.toString().substringBefore("@"))
+//            startActivity(intent)
+//        }
 
 
     }
