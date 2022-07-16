@@ -8,6 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        android:id="@+id/card_container"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         app:cardCornerRadius="8dp">
@@ -17,12 +18,14 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/show_image"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/ic_office"/>
 
             <TextView
+                android:id="@+id/show_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -35,6 +38,7 @@
                 tools:text="The Office"/>
 
             <TextView
+                android:id="@+id/show_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="68dp"
                 android:layout_gravity="bottom"

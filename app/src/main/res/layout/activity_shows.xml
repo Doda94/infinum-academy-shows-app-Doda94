@@ -8,7 +8,9 @@
     tools:context=".ShowsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shows_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/view_show_item"/>
 
 </LinearLayout>
