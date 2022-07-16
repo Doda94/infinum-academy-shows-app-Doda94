@@ -18,12 +18,16 @@ class ShowsAdapter(
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) = holder.bind(items[position])
 
     override fun getItemCount(): Int = items.size
+    fun loadShows(shows: List<Show>) {
+        items = shows
+        notifyDataSetChanged()
+    }
 
     inner class ShowViewHolder(private val binding: ViewShowItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind (item: Show){
-            binding.showName.text=item.name
-            binding.showDesc.text=item.description
+            binding.showName.text= item.name
+            binding.showDesc.text= item.description
             binding.showImage.setImageResource(item.imageResourceId)
             binding.cardContainer.setOnClickListener {
                 onItemClickCallback(item)
