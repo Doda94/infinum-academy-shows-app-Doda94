@@ -45,7 +45,8 @@ class ShowsActivity : AppCompatActivity(){
         binding.loadShowsButton.setOnClickListener {
             adapter.loadShows(shows)
             binding.showsRecyclerView.isVisible = true
-            binding.loadShowsLinearLayout.isVisible = false
+            binding.loadShowsButton.isVisible = false
+            binding.loadShowsText.isVisible=false
         }
     }
 
