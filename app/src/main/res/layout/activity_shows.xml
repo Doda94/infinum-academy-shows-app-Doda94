@@ -13,31 +13,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="116dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:elevation="0dp">
+            app:titleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
+            app:elevation="0dp"
+            app:title="@string/app_name">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:text="@string/app_name"
-                    android:padding="24dp"
-                    android:textAlignment="center"
-                    android:textSize="40sp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                    />
-
-            </RelativeLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shows_recycler_view"

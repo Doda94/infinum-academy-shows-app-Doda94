@@ -14,11 +14,20 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="OutlinedTextInputLayoutBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="OutlinedTextInputLayoutBoxLoginPage" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">#fff</item>
         <item name="boxStrokeWidth">2dp</item>
         <item name="hintTextColor">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
         <item name="endIconTint">@color/white</item>
+    </style>
+
+    <style name="OutlinedTextInputLayoutBoxBottomSheet" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="endIconTint">@color/black</item>
     </style>
 </resources>

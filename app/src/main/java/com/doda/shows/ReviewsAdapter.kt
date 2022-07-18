@@ -22,10 +22,16 @@ class ReviewsAdapter(
         notifyDataSetChanged()
     }
 
+    fun addReview(review: Review){
+        items = items + review
+        notifyItemInserted(items.size)
+    }
+
     inner class ReviewViewHolder(private val binding: ItemReviewBinding ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Review) {
             binding.reviewTextNumber.text = item.rating.toString()
             binding.reviewName.text = item.name
+            binding.reviewTextView.text = item.review
         }
     }
 }

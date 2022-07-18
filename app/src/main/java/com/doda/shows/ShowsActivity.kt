@@ -39,6 +39,7 @@ class ShowsActivity : AppCompatActivity(){
             intent.putExtra("show_name",adapter.getShowName(show))
             intent.putExtra("show_desc",adapter.getShowDesc(show))
             intent.putExtra("show_img_id",adapter.getShowImg(show))
+            intent.putExtra("username",intent.getStringExtra("username"))
             startActivity(intent)
         }
 
