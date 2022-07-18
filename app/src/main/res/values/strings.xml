@@ -16,4 +16,5 @@
     <string name="StrangerThings_description">Stranger Things is an American science fiction horror drama television series created by the Duffer Brothers that is streaming on Netflix. The brothers serve as showrunners and are executive producers along with Shawn Levy and Dan Cohen. The first season of the series was released on Netflix on July 15, 2016, with the second, third, and fourth seasons following in October 2017, July 2019, and May and July 2022, respectively. In February 2022, the series was renewed for a fifth and final season.</string>
     <string name="load_shows_button">Your shows are not showing. Get it?</string>
     <string name="reviews">Reviews</string>
+    <string name="image_content_description">Show header photo</string>
 </resources>

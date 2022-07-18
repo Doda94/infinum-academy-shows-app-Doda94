@@ -22,6 +22,15 @@ class ShowsAdapter(
         items = shows
         notifyDataSetChanged()
     }
+    fun getShowName(show: Show): String {
+        return show.name
+    }
+    fun getShowDesc(show: Show): String{
+        return show.description
+    }
+    fun getShowImg(show: Show): Int{
+        return show.imageResourceId
+    }
 
     inner class ShowViewHolder(private val binding: ViewShowItemBinding) : RecyclerView.ViewHolder(binding.root) {
 

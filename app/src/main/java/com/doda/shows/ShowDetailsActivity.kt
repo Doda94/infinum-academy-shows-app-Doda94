@@ -20,11 +20,18 @@ class ShowDetailsActivity : AppCompatActivity() {
         reviews = listOf(
             Review("Marko Dodig", 5),
             Review("Pero Peric", 3),
+            Review("Mia Dodig", 2),
+            Review("Dusko Latinovic", 5),
         )
 
         binding= ActivityShowDetailsBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+
+        initReviewsRecycler()
+        addShowInfo()
+        adapter.updateReviews(reviews)
 
     }
 
@@ -34,5 +41,13 @@ class ShowDetailsActivity : AppCompatActivity() {
         binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.reviewsRecyclerView.adapter = adapter
+    }
+
+    private fun addShowInfo(){
+        binding.toolbarLayout.title = intent.getStringExtra("show_name")
+        // TODO: add blank img
+        val imageResourceId: Int = intent.getIntExtra("show_img_id",R.drawable.ic_office)
+        binding.showMenuImage.setImageResource(imageResourceId)
+        binding.showMenuDescription.text = intent.getStringExtra("show_desc")
     }
 }

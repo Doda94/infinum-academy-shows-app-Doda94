@@ -17,6 +17,11 @@ class ReviewsAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    fun updateReviews(reviews: List<Review>){
+        items = reviews
+        notifyDataSetChanged()
+    }
+
     inner class ReviewViewHolder(private val binding: ItemReviewBinding ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Review) {
             binding.reviewTextNumber.text = item.rating.toString()
