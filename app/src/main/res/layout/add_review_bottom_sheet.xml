@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="24dp">
@@ -40,14 +41,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="40dp"
+            android:stepSize="1"
+            android:rating="3"
+            android:secondaryProgressTint="@color/purple_500"
+            android:progressTint="@color/purple_500"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/write_a_review_text_view"/>
 
-
-            <!-- ZASTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-->
+        <!-- TODO: fix stroke color unfocused -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/review_text_input_layout"
-            style="@style/OutlinedTextInputLayoutBoxBottomSheet"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -61,7 +65,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/review_text_input_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:inputType="text|textMultiLine"
                 android:textColor="@color/black"/>
 

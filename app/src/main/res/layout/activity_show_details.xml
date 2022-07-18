@@ -112,6 +112,9 @@
                 android:transformPivotX="0dp"
                 android:transformPivotY="0dp"
                 android:isIndicator="true"
+                android:progressTint="@color/purple_500"
+                android:secondaryProgressTint="@color/purple_500"
+                android:rating="5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/reviews_text"/>
 

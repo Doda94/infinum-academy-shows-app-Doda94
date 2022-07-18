@@ -19,17 +19,11 @@ class ShowDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        reviews = listOf(
-            Review("Marko Dodig", 5F,""),
-            Review("Pero Peric", 3F,""),
-            Review("Mia Dodig", 2F,"zasu serija"),
-            Review("Dusko Latinovic", 5F,getString(R.string.sample_text)),
-        )
-
         binding= ActivityShowDetailsBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
+        reviews = listOf()
 
         initReviewsRecycler()
         addShowInfo()
@@ -38,7 +32,6 @@ class ShowDetailsActivity : AppCompatActivity() {
         binding.writeReviewButton.setOnClickListener{
             addReviewBottomSheet()
         }
-
     }
 
     private fun initReviewsRecycler(){
@@ -66,14 +59,26 @@ class ShowDetailsActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
+        bottomSheetBinding.writeRatingBar.rating = adapter.average
+
         bottomSheetBinding.submitReviewButton.setOnClickListener{
             val name: String = intent.getStringExtra("username").toString()
-            val desc: String = bottomSheetBinding.reviewTextInputEditText.text.toString()
-            val rating: Float = bottomSheetBinding.writeRatingBar.rating
+            var desc: String = bottomSheetBinding.reviewTextInputEditText.text.toString()
+            if (desc.isEmpty()) {
+                desc = ""
+            }
+            val rating: Int = bottomSheetBinding.writeRatingBar.rating.toInt()
 
             adapter.addReview(Review(name, rating, desc))
+            updateRatingBar()
+
             dialog.dismiss()
         }
+    }
+
+    private fun updateRatingBar(){
+        binding.reviewsText.text = getString(R.string.rating_bar_text, adapter.itemCount, adapter.average)
+        binding.ratingBar.rating = adapter.average
     }
 
     private fun addShowInfo(){

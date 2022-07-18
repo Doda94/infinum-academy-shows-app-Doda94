@@ -8,6 +8,10 @@ import com.doda.shows.databinding.ItemReviewBinding
 class ReviewsAdapter(
     private var items: List<Review>
 ) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
+
+    private var ratingSum: Int = 0
+    var average : Float = 0F
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context))
         return ReviewViewHolder(binding)
@@ -23,7 +27,9 @@ class ReviewsAdapter(
     }
 
     fun addReview(review: Review){
-        items = items + review
+        items += review
+        ratingSum += review.rating
+        average = (ratingSum/items.size).toFloat()
         notifyItemInserted(items.size)
     }
 

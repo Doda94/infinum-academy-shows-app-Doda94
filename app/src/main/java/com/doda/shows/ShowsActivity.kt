@@ -35,12 +35,12 @@ class ShowsActivity : AppCompatActivity(){
 
     private fun initShowsRecycler() {
         adapter = ShowsAdapter(shows) {show ->
-            val intent = Intent(this, ShowDetailsActivity::class.java)
-            intent.putExtra("show_name",adapter.getShowName(show))
-            intent.putExtra("show_desc",adapter.getShowDesc(show))
-            intent.putExtra("show_img_id",adapter.getShowImg(show))
-            intent.putExtra("username",intent.getStringExtra("username"))
-            startActivity(intent)
+            val intent1 = Intent(this, ShowDetailsActivity::class.java)
+            intent1.putExtra("show_name",adapter.getShowName(show))
+            intent1.putExtra("show_desc",adapter.getShowDesc(show))
+            intent1.putExtra("show_img_id",adapter.getShowImg(show))
+            intent1.putExtra("username",intent.getStringExtra("username"))
+            startActivity(intent1)
         }
 
         binding.showsRecyclerView.layoutManager = LinearLayoutManager(this)
