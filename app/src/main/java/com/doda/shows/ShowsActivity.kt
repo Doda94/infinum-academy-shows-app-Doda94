@@ -1,5 +1,6 @@
 package com.doda.shows
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -18,8 +19,8 @@ class ShowsActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
 
         shows= listOf(
-            Show("1","TheOffice",getString(R.string.TheOffice_description),R.drawable.ic_office),
-            Show("2","Stranger Things",getString(R.string.StrangerThings_description),R.drawable.ic_stranger_things),
+            Show("0","TheOffice",getString(R.string.TheOffice_description),R.drawable.ic_office),
+            Show("1","Stranger Things",getString(R.string.StrangerThings_description),R.drawable.ic_stranger_things),
         )
 
 
@@ -33,8 +34,9 @@ class ShowsActivity : AppCompatActivity(){
     }
 
     private fun initShowsRecycler() {
-        adapter = ShowsAdapter(shows) { show ->
-            // TODO: do on item pressed
+        adapter = ShowsAdapter(shows) {
+            val intent = Intent(this, ShowDetailsActivity::class.java)
+            startActivity(intent)
         }
         binding.showsRecyclerView.layoutManager = LinearLayoutManager(this)
 
