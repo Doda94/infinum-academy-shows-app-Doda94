@@ -60,8 +60,8 @@
                     android:layout_marginTop="40dp"
                     android:stepSize="1"
                     android:rating="3"
-                    android:secondaryProgressTint="@color/purple_500"
-                    android:progressTint="@color/purple_500"
+                    android:secondaryProgressTint="@color/shows_purple"
+                    android:progressTint="@color/shows_purple"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/write_a_review_text_view"/>
 
@@ -108,10 +108,10 @@
         android:text="@string/submit"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="@color/shows_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_sheet_card_view"
-        app:rippleColor="@color/purple_700"/>
+        app:rippleColor="@color/purple_500"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
