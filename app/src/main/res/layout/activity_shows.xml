@@ -16,7 +16,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:titleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
             app:elevation="0dp"

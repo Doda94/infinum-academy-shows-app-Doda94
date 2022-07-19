@@ -36,6 +36,10 @@ class ShowDetailsActivity : AppCompatActivity() {
             addReviewBottomSheet()
         }
 
+        binding.toolbar.setNavigationOnClickListener{
+            finish()
+        }
+
     }
 
     private fun initReviewsRecycler() {
