@@ -11,7 +11,7 @@ class ShowsAdapter(
 ) : RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
-        val binding = ViewShowItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ViewShowItemBinding.inflate(LayoutInflater.from(parent.context),null, false)
         return ShowViewHolder(binding)
     }
 

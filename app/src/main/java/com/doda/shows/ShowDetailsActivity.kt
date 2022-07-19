@@ -51,7 +51,7 @@ class ShowDetailsActivity : AppCompatActivity() {
     }
 
     private fun addReviewBottomSheet() {
-        val dialog = BottomSheetDialog(this)
+        val dialog = BottomSheetDialog(this, R.style.Theme_Shows)
 
         val bottomSheetBinding = AddReviewBottomSheetBinding.inflate(layoutInflater)
 
