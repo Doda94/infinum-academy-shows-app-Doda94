@@ -29,7 +29,7 @@ class ReviewsAdapter(
     fun addReview(review: Review){
         items += review
         ratingSum += review.rating
-        average = (ratingSum/items.size).toFloat()
+        average = (ratingSum.toFloat()/items.size.toFloat())
         notifyItemInserted(items.size)
     }
 
