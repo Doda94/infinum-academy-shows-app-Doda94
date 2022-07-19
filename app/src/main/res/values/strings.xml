@@ -21,4 +21,5 @@
     <string name="comment">Comment</string>
     <string name="submit">Submit</string>
     <string name="rating_bar_text"> %1$d REVIEWS, %2$.2f AVERAGE</string>
+    <string name="no_reviews">NO REVIEWS YET.</string>
 </resources>

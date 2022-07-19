@@ -2,6 +2,7 @@ package com.doda.shows
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doda.shows.databinding.ActivityShowDetailsBinding
@@ -28,10 +29,12 @@ class ShowDetailsActivity : AppCompatActivity() {
         initReviewsRecycler()
         addShowInfo()
         adapter.updateReviews(reviews)
+        showReviews()
 
-        binding.writeReviewButton.setOnClickListener{
+        binding.writeReviewButton.setOnClickListener {
             addReviewBottomSheet()
         }
+
     }
 
     private fun initReviewsRecycler(){
@@ -71,8 +74,16 @@ class ShowDetailsActivity : AppCompatActivity() {
 
             adapter.addReview(Review(name, rating, desc))
             updateRatingBar()
+            showReviews()
 
             dialog.dismiss()
+        }
+    }
+
+    private fun showReviews(){
+        if (adapter.itemCount > 0){
+            binding.noReviewsConstraintLayout.isVisible = false
+            binding.reviewsConstraintLayout.isVisible = true
         }
     }
 
