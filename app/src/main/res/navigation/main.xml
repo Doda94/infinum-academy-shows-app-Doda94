@@ -20,17 +20,16 @@
         android:name="com.doda.shows.ShowsFragment"
         android:label="ShowsFragment">
         <action
-            android:id="@+id/action_showsFragment_to_showDetailsFragment"
-            app:destination="@id/showDetailsFragment"/>
+            android:id="@+id/action_showsFragment_to_showDetailsNestedGraph"
+            app:destination="@id/show_details_nested_graph"/>
         <argument
             android:name="username"
             app:argType="string"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/showDetailsFragment"
-        android:name="com.doda.shows.ShowDetailsFragment"
-        android:label="ShowDetailsFragment">
+    <navigation
+        android:id="@+id/show_details_nested_graph"
+        app:startDestination="@id/showDetailsFragment">
 
         <argument
             android:name="username"
@@ -46,26 +45,38 @@
 
         <argument
             android:name="show_img_id"
-            app:argType="int"/>
+            app:argType="integer"/>
 
-        <argument
-            android:name="rating"
-            app:argType="int"/>
+        <fragment
+            android:id="@+id/showDetailsFragment"
+            android:name="com.doda.shows.ShowDetailsFragment"
+            android:label="ShowDetailsFragment">
 
-        <argument
-            android:name="review"
-            app:argType="string"/>
+            <argument
+                android:name="rating"
+                app:argType="integer"/>
 
-        <action android:id="@+id/action_showDetailsFragment_to_addReviewBottomSheetFragment"
-            app:destination="@id/addReviewBottomSheetFragment"/>
+            <argument
+                android:name="comment"
+                app:argType="string"/>
 
-    </fragment>
+            <action android:id="@+id/action_showDetailsFragment_to_addReviewBottomSheetFragment"
+                app:destination="@id/addReviewBottomSheetFragment"/>
 
-    <dialog
-        android:id="@+id/addReviewBottomSheetFragment"
-        android:name="com.doda.shows.AddReviewBottomSheetFragment"
-        android:label="fragment_add_review_bottom_sheet"
-        tools:layout="@layout/fragment_add_review_bottom_sheet">
-        <action android:id="@+id/action_addReviewBottomSheetFragment_to_showDetailsFragment" app:destination="@id/showDetailsFragment"/>
-    </dialog>
+        </fragment>
+
+        <dialog
+            android:id="@+id/addReviewBottomSheetFragment"
+            android:name="com.doda.shows.AddReviewBottomSheetFragment"
+            android:label="fragment_add_review_bottom_sheet"
+            tools:layout="@layout/fragment_add_review_bottom_sheet">
+
+            <argument
+                android:name="username"
+                app:argType="string"/>
+
+        </dialog>
+
+    </navigation>
+
 </navigation>

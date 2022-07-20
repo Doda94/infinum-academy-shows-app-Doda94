@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.doda.shows.databinding.FragmentAddReviewBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -15,6 +16,8 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: ReviewsAdapter
+
+    private val args by navArgs<AddReviewBottomSheetFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,15 +33,19 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         binding.closeBottomSheetButton.setOnClickListener{
             onDestroyView()
         }
-        
+
         binding.submitReviewButton.setOnClickListener{
-            if (binding.writeRatingBar.rating.toInt() == 0){
-                binding.submitReviewButton.setError(getString(R.string.rating_error))
+            val username = args.username
+            val rating = binding.writeRatingBar.rating.toInt()
+            val comment = binding.reviewTextInputEditText.text.toString()
+            if (rating==0){
+                binding.submitReviewButton.error = getString(R.string.rating_error)
             }
-            else{
-                val directions = AddReviewBottomSheetFragmentDirections.actionAddReviewBottomSheetFragmentToShowDetailsFragment()
+            else {
+                // TODO: find a way to add a review
             }
         }
+
     }
     
     override fun onDestroyView() {

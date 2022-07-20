@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doda.shows.databinding.FragmentShowsBinding
 
 class ShowsFragment : Fragment() {
@@ -45,7 +46,7 @@ class ShowsFragment : Fragment() {
     private fun initShowsRecycler() {
         adapter = ShowsAdapter(shows) { show ->
             val username = args.username
-            val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(
+            val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsNestedGraph(
                 username,
                 adapter.getShowName(show),
                 adapter.getShowDesc(show),
@@ -54,9 +55,9 @@ class ShowsFragment : Fragment() {
             findNavController().navigate(directions)
         }
 
-        //                binding.showsRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.showsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        //        binding.showsRecyclerView.adapter = adapter
+        binding.showsRecyclerView.adapter = adapter
     }
 
     private fun initLoadShowsButton() {

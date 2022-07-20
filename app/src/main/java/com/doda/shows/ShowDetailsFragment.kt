@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.doda.shows.databinding.AddReviewBottomSheetBinding
 import com.doda.shows.databinding.FragmentShowDetailsBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ShowDetailsFragment : Fragment() {
 
@@ -25,7 +22,7 @@ class ShowDetailsFragment : Fragment() {
 
     private lateinit var adapter: ReviewsAdapter
 
-    private val args by navArgs<ShowDetailsFragmentArgs>()
+    private val args by navArgs<ShowDetailsNestedGraphArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +43,17 @@ class ShowDetailsFragment : Fragment() {
         showReviews()
 
         binding.writeReviewButton.setOnClickListener {
-            addReviewBottomSheet()
+            openReviewBottomSheet()
         }
 
         binding.toolbar.setNavigationOnClickListener {
-//            finish()
+            //            finish()
         }
+    }
+
+    private fun openReviewBottomSheet() {
+        val directions = ShowDetailsFragmentDirections.actionShowDetailsFragmentToAddReviewBottomSheetFragment(args.username)
+        findNavController().navigate(directions)
     }
 
     private fun initReviewsRecycler() {
@@ -64,37 +66,6 @@ class ShowDetailsFragment : Fragment() {
         binding.reviewsRecyclerView.addItemDecoration(
             DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         )
-    }
-
-    private fun addReviewBottomSheet() {
-        val dialog = BottomSheetDialogFragment()
-
-        val bottomSheetBinding = AddReviewBottomSheetBinding.inflate(layoutInflater)
-
-
-        bottomSheetBinding.closeBottomSheetButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        bottomSheetBinding.writeRatingBar.rating = adapter.average
-
-        bottomSheetBinding.submitReviewButton.setOnClickListener {
-            val name: String = args.username
-            var desc: String = bottomSheetBinding.reviewTextInputEditText.text.toString()
-            if (desc.isEmpty()) {
-                desc = ""
-            }
-            val rating: Int = bottomSheetBinding.writeRatingBar.rating.toInt()
-            if (rating == 0) {
-//                Toast.makeText(this, getString(R.string.rating_error), Toast.LENGTH_SHORT).show()
-            } else {
-                adapter.addReview(Review(name, rating, desc))
-                updateRatingBar()
-                showReviews()
-
-                dialog.dismiss()
-            }
-        }
     }
 
     private fun showReviews() {
@@ -111,7 +82,7 @@ class ShowDetailsFragment : Fragment() {
 
     private fun addShowInfo() {
         binding.toolbarLayout.title = args.showName
-//        // TODO: add blank img
+        // TODO: add blank img
         val imageResourceId: Int = args.showImgId
         binding.showMenuImage.setImageResource(imageResourceId)
         binding.showMenuDescription.text = args.showDesc
