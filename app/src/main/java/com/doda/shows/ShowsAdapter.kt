@@ -11,7 +11,7 @@ class ShowsAdapter(
 ) : RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
-        val binding = ViewShowItemBinding.inflate(LayoutInflater.from(parent.context),null, false)
+        val binding = ViewShowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ShowViewHolder(binding)
     }
 
@@ -22,21 +22,24 @@ class ShowsAdapter(
         items = shows
         notifyDataSetChanged()
     }
+
     fun getShowName(show: Show): String {
         return show.name
     }
-    fun getShowDesc(show: Show): String{
+
+    fun getShowDesc(show: Show): String {
         return show.description
     }
-    fun getShowImg(show: Show): Int{
+
+    fun getShowImg(show: Show): Int {
         return show.imageResourceId
     }
 
     inner class ShowViewHolder(private val binding: ViewShowItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind (item: Show){
-            binding.showName.text= item.name
-            binding.showDesc.text= item.description
+        fun bind(item: Show) {
+            binding.showName.text = item.name
+            binding.showDesc.text = item.description
             binding.showImage.setImageResource(item.imageResourceId)
             binding.cardContainer.setOnClickListener {
                 onItemClickCallback(item)

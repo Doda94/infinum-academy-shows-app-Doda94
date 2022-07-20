@@ -127,8 +127,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/reviews_constraint_layout"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/reviews_title">
