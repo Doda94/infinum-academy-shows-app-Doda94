@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ShowDetailsActivity : AppCompatActivity() {
 
-    private lateinit var reviews: List<Review>
+    private var reviews: List<Review> = listOf()
 
     private lateinit var binding: ActivityShowDetailsBinding
 
@@ -24,8 +24,6 @@ class ShowDetailsActivity : AppCompatActivity() {
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-        reviews = listOf()
 
         initReviewsRecycler()
         addShowInfo()
@@ -56,7 +54,6 @@ class ShowDetailsActivity : AppCompatActivity() {
 
     private fun addReviewBottomSheet() {
         val dialog = BottomSheetDialog(this, R.style.Theme_Shows)
-
         val bottomSheetBinding = AddReviewBottomSheetBinding.inflate(layoutInflater)
 
         dialog.setContentView(bottomSheetBinding.root)
@@ -72,9 +69,6 @@ class ShowDetailsActivity : AppCompatActivity() {
         bottomSheetBinding.submitReviewButton.setOnClickListener {
             val name: String = intent.getStringExtra("username").toString()
             var desc: String = bottomSheetBinding.reviewTextInputEditText.text.toString()
-            if (desc.isEmpty()) {
-                desc = ""
-            }
             val rating: Int = bottomSheetBinding.writeRatingBar.rating.toInt()
             if (rating == 0) {
                 Toast.makeText(this, getString(R.string.rating_error), Toast.LENGTH_SHORT).show()
