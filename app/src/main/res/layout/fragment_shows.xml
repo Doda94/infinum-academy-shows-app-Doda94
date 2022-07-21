@@ -5,24 +5,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ShowsActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/app_bar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            app:titleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
-            app:elevation="0dp"
-            app:title="@string/app_name">
+            android:layout_height="wrap_content"
+            android:theme="@style/Widget.AppCompat.Light.ActionBar">
 
-        </com.google.android.material.appbar.MaterialToolbar>
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/white"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
+                app:contentScrim="@color/white"
+                app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:title="@string/app_name"
+                app:titleCollapseMode="fade"
+                app:titleEnabled="true">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/white"
+                    app:layout_collapseMode="pin"
+                    app:title="@string/app_name">
+
+                    <ImageButton
+                        android:id="@+id/log_out_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_baseline_login_24"
+                        android:background="@color/white"
+                        app:tint="@color/shows_purple"/>
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shows_recycler_view"
@@ -43,15 +72,13 @@
         android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/load_shows_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/load_shows_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-40dp"
         android:text="@string/load_shows_button"
-        android:textSize="16sp"
-        android:id="@+id/load_shows_text"/>
-
-
+        android:textSize="16sp"/>
 
 </RelativeLayout>

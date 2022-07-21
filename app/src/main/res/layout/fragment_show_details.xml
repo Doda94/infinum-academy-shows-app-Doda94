@@ -14,8 +14,7 @@
         app:layout_constraintBottom_toTopOf="@id/write_review_button_card_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ShowDetailsActivity">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

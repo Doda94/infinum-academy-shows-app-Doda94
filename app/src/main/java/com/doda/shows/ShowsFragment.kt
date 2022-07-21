@@ -41,6 +41,7 @@ class ShowsFragment : Fragment() {
 
         initShowsRecycler()
         initLoadShowsButton()
+        initlogOutButton()
     }
 
     private fun initShowsRecycler() {
@@ -66,6 +67,12 @@ class ShowsFragment : Fragment() {
             binding.showsRecyclerView.isVisible = true
             binding.loadShowsButton.isVisible = false
             binding.loadShowsText.isVisible = false
+        }
+    }
+
+    private fun initlogOutButton() {
+        binding.logOutButton.setOnClickListener{
+            findNavController().popBackStack()
         }
     }
 
