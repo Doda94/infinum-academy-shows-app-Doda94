@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,18 +9,22 @@
     tools:context=".ShowsActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            app:titleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
             app:elevation="0dp"
-            app:title="@string/app_name">
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded">
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -33,25 +37,27 @@
 
     </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/load_shows_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_empty_space_icon"
-            android:background="@android:color/transparent"/>
+    <ImageButton
+        android:id="@+id/load_shows_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_empty_space_icon"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/load_shows_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-40dp"
-            android:text="@string/load_shows_button"
-            android:textSize="16sp"
-            android:id="@+id/load_shows_text"/>
+    <TextView
+        android:id="@+id/load_shows_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="24dp"
+        android:text="@string/load_shows_button"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/load_shows_button"/>
 
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

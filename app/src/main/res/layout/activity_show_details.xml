@@ -102,7 +102,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/show_menu_description"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <FrameLayout
                     android:id="@+id/no_reviews_constraint_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -116,13 +116,10 @@
                         android:layout_margin="20dp"
                         android:text="@string/no_reviews"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_gravity="center_horizontal"
                         />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </FrameLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/reviews_constraint_layout"
@@ -198,7 +195,8 @@
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:backgroundTint="@color/shows_purple"
-            app:rippleColor="@color/purple_500"/>
+            app:rippleColor="@color/purple_500"
+            app:cornerRadius="20dp"/>
 
     </androidx.cardview.widget.CardView>
 

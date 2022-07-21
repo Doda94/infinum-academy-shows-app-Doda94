@@ -34,7 +34,7 @@ class ShowDetailsActivity : AppCompatActivity() {
             addReviewBottomSheet()
         }
 
-        binding.toolbar.setNavigationOnClickListener{
+        binding.toolbar.setNavigationOnClickListener {
             finish()
         }
 
@@ -53,7 +53,7 @@ class ShowDetailsActivity : AppCompatActivity() {
     }
 
     private fun addReviewBottomSheet() {
-        val dialog = BottomSheetDialog(this, R.style.Theme_Shows)
+        val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
         val bottomSheetBinding = AddReviewBottomSheetBinding.inflate(layoutInflater)
 
         dialog.setContentView(bottomSheetBinding.root)
