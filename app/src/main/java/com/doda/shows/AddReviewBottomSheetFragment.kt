@@ -27,7 +27,7 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         binding.closeBottomSheetButton.setOnClickListener{
             findNavController().popBackStack()
         }
