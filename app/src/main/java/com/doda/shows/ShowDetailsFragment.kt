@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -47,12 +49,40 @@ class ShowDetailsFragment : Fragment() {
         }
 
         binding.toolbar.setNavigationOnClickListener {
-            //            finish()
+            findNavController().popBackStack()
         }
+
+        val navBackStackEntry = findNavController().getBackStackEntry(R.id.showDetailsFragment)
+
+        val observer = LifecycleEventObserver {_ , event ->
+            if (event== Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains("rating") ){
+                val rating = navBackStackEntry.savedStateHandle.get<Int>("rating")
+                var comment = navBackStackEntry.savedStateHandle.get<String>("comment")
+                if (rating != null) {
+                    if (comment == null){
+                        comment = ""
+                    }
+                    adapter.addReview(Review(args.username, rating.toInt(), comment))
+                    findNavController().currentBackStackEntry?.savedStateHandle?.remove<String>("comment")
+                    findNavController().currentBackStackEntry?.savedStateHandle?.remove<Int>("rating")
+                }
+                updateRatingBar()
+                showReviews()
+            }
+        }
+
+        navBackStackEntry.lifecycle.addObserver(observer)
+
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver{_, event ->
+            if (event == Lifecycle.Event.ON_DESTROY){
+                navBackStackEntry.lifecycle.removeObserver(observer)
+            }
+        })
+
     }
 
     private fun openReviewBottomSheet() {
-        val directions = ShowDetailsFragmentDirections.actionShowDetailsFragmentToAddReviewBottomSheetFragment(args.username)
+        val directions = ShowDetailsFragmentDirections.actionShowDetailsFragmentToAddReviewBottomSheetFragment()
         findNavController().navigate(directions)
     }
 
@@ -83,7 +113,7 @@ class ShowDetailsFragment : Fragment() {
     private fun addShowInfo() {
         binding.toolbarLayout.title = args.showName
         // TODO: add blank img
-        val imageResourceId: Int = args.showImgId
+        val imageResourceId: Int = args.showImg
         binding.showMenuImage.setImageResource(imageResourceId)
         binding.showMenuDescription.text = args.showDesc
     }

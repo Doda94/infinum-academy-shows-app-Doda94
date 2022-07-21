@@ -17,8 +17,6 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var adapter: ReviewsAdapter
 
-    private val args by navArgs<AddReviewBottomSheetFragmentArgs>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,18 +29,19 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         
         binding.closeBottomSheetButton.setOnClickListener{
-            onDestroyView()
+            findNavController().popBackStack()
         }
 
         binding.submitReviewButton.setOnClickListener{
-            val username = args.username
             val rating = binding.writeRatingBar.rating.toInt()
             val comment = binding.reviewTextInputEditText.text.toString()
             if (rating==0){
                 binding.submitReviewButton.error = getString(R.string.rating_error)
             }
             else {
-                // TODO: find a way to add a review
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("comment", comment)
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("rating", rating)
+                findNavController().popBackStack()
             }
         }
 
