@@ -93,11 +93,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:layout_gravity="bottom"
         android:text="@string/submit"
         android:textSize="16sp"
         android:textColor="@color/white"
         android:backgroundTint="@color/shows_purple"
-        app:rippleColor="@color/purple_500"
-        android:layout_gravity="bottom"/>
+        app:rippleColor="@color/purple_500"/>
 
 </LinearLayout>

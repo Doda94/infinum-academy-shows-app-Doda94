@@ -71,7 +71,7 @@ class ShowsFragment : Fragment() {
     }
 
     private fun initlogOutButton() {
-        binding.logOutButton.setOnClickListener{
+        binding.logOutButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }

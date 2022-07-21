@@ -54,12 +54,12 @@ class ShowDetailsFragment : Fragment() {
 
         val navBackStackEntry = findNavController().getBackStackEntry(R.id.showDetailsFragment)
 
-        val observer = LifecycleEventObserver {_ , event ->
-            if (event== Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains("rating") ){
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains("rating")) {
                 val rating = navBackStackEntry.savedStateHandle.get<Int>("rating")
                 var comment = navBackStackEntry.savedStateHandle.get<String>("comment")
                 if (rating != null) {
-                    if (comment == null){
+                    if (comment == null) {
                         comment = ""
                     }
                     adapter.addReview(Review(args.username, rating.toInt(), comment))
@@ -73,8 +73,8 @@ class ShowDetailsFragment : Fragment() {
 
         navBackStackEntry.lifecycle.addObserver(observer)
 
-        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver{_, event ->
-            if (event == Lifecycle.Event.ON_DESTROY){
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
                 navBackStackEntry.lifecycle.removeObserver(observer)
             }
         })

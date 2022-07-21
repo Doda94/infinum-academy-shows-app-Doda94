@@ -28,17 +28,16 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.closeBottomSheetButton.setOnClickListener{
+        binding.closeBottomSheetButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.submitReviewButton.setOnClickListener{
+        binding.submitReviewButton.setOnClickListener {
             val rating = binding.writeRatingBar.rating.toInt()
             val comment = binding.reviewTextInputEditText.text.toString()
-            if (rating==0){
+            if (rating == 0) {
                 binding.submitReviewButton.error = getString(R.string.rating_error)
-            }
-            else {
+            } else {
                 findNavController().previousBackStackEntry?.savedStateHandle?.set("comment", comment)
                 findNavController().previousBackStackEntry?.savedStateHandle?.set("rating", rating)
                 findNavController().popBackStack()
@@ -46,7 +45,7 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
     }
-    
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
