@@ -15,8 +15,6 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val binding get() = _binding!!
 
-    private lateinit var adapter: ReviewsAdapter
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

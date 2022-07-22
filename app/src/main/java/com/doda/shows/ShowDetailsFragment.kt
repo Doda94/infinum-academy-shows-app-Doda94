@@ -24,7 +24,7 @@ class ShowDetailsFragment : Fragment() {
 
     private lateinit var adapter: ReviewsAdapter
 
-    private val args by navArgs<ShowDetailsNestedGraphArgs>()
+    private val args by navArgs<ShowDetailsFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

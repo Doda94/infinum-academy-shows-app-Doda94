@@ -47,7 +47,7 @@ class ShowsFragment : Fragment() {
     private fun initShowsRecycler() {
         adapter = ShowsAdapter(shows) { show ->
             val username = args.username
-            val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsNestedGraph(
+            val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(
                 username,
                 adapter.getShowName(show),
                 adapter.getShowDesc(show),

@@ -84,8 +84,8 @@ class LoginFragment : Fragment() {
 
 
         binding.loginButton.setOnClickListener {
-            val username = binding.emailEditText.text.toString().substringBefore("@")
-            val directions = LoginFragmentDirections.actionLoginFragmentToShowsFragment(username)
+            val username: String = binding.emailEditText.text.toString().substringBefore("@")
+            val directions = LoginFragmentDirections.actionLoginFragmentToShowDetailsNestedGraph(username)
             findNavController().navigate(directions)
         }
     }

@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:textStyle="bold"
-        android:textColor="#52368C"
+        android:textColor="@color/shows_purple"
         app:layout_constraintBottom_toBottomOf="@id/review_profile_image"
         app:layout_constraintEnd_toEndOf="@id/review_star"
         app:layout_constraintTop_toTopOf="@id/review_profile_image"
