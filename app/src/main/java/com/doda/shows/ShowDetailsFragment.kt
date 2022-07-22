@@ -16,7 +16,7 @@ import com.doda.shows.databinding.FragmentShowDetailsBinding
 
 class ShowDetailsFragment : Fragment() {
 
-    private lateinit var reviews: List<Review>
+    private var reviews: List<Review> = listOf()
 
     private var _binding: FragmentShowDetailsBinding? = null
 
@@ -36,8 +36,6 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        reviews = listOf()
 
         initReviewsRecycler()
         addShowInfo()
