@@ -10,4 +10,17 @@
     <string name="login_button">Login</string>
     <string name="email_error">Invalid email address</string>
     <string name="welcome">Welcome</string>
+    <string name="sample_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque semper, nulla sit amet faucibus laoreet, felis ante aliquam tortor, vitae dapibus nunc orci quis dui. Nam eu sodales augue. Curabitur scelerisque diam in sapien feugiat, ac commodo ante scelerisque. Quisque quis dolor nec tortor interdum posuere ac eget nisl. Sed nec magna libero. Curabitur varius vestibulum justo vel consectetur. Pellentesque eget finibus lacus. Sed fringilla gravida lacus, eu posuere tellus elementum non. Nam eget ipsum euismod, mattis tortor ac, rhoncus augue. Vivamus ornare pulvinar elit vitae lobortis. Curabitur condimentum ex at ex varius facilisis.</string>
+    <string name="TheOffice_description">The Office is an American mockumentary sitcom television series that depicts the everyday work
+        lives of office employees at the Scranton, Pennsylvania, branch of the fictional Dunder Mifflin Paper Company. It aired on NBC from March 24, 2005, to May 16, 2013, spanning a total of nine seasons.[1] Based on the 2001–2003 BBC series of the same name created by Ricky Gervais and Stephen Merchant, it was adapted for American television by Greg Daniels, a veteran writer for Saturday Night Live, King of the Hill, and The Simpsons. It was co-produced by Daniels\'s Deedle-Dee Productions and Reveille Productions (later Shine America), in association with Universal Television. The original executive producers were Daniels, Gervais, Merchant, Howard Klein, and Ben Silverman, with numerous others being promoted in later seasons.</string>
+    <string name="StrangerThings_description">Stranger Things is an American science fiction horror drama television series created by the Duffer Brothers that is streaming on Netflix. The brothers serve as showrunners and are executive producers along with Shawn Levy and Dan Cohen. The first season of the series was released on Netflix on July 15, 2016, with the second, third, and fourth seasons following in October 2017, July 2019, and May and July 2022, respectively. In February 2022, the series was renewed for a fifth and final season.</string>
+    <string name="load_shows_button">Your shows are not showing. Get it?</string>
+    <string name="reviews">Reviews</string>
+    <string name="image_content_description">Show header photo</string>
+    <string name="write_review">Write a review</string>
+    <string name="comment">Comment</string>
+    <string name="submit">Submit</string>
+    <string name="rating_bar_text"> %1$d REVIEWS, %2$.2f AVERAGE</string>
+    <string name="no_reviews">NO REVIEWS YET.</string>
+    <string name="rating_error">Rating error placeholder</string>
 </resources>
