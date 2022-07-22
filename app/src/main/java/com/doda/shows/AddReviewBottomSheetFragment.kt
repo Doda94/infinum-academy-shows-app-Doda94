@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.doda.shows.databinding.FragmentAddReviewBottomSheetBinding
@@ -33,15 +35,17 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         binding.submitReviewButton.setOnClickListener {
             val rating = binding.writeRatingBar.rating.toInt()
             val comment = binding.reviewTextInputEditText.text.toString()
+            val review = Pair(comment, rating)
             if (rating == 0) {
                 binding.submitReviewButton.error = getString(R.string.rating_error)
             } else {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("comment", comment)
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("rating", rating)
+                val bundle = Bundle()
+                bundle.putString("comment", comment)
+                bundle.putInt("rating", rating)
+                setFragmentResult("reviewKey", bundle)
                 findNavController().popBackStack()
             }
         }
-
     }
 
     override fun onDestroyView() {
