@@ -47,7 +47,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="40dp"
             android:stepSize="1"
-            android:rating="3"
+            android:rating="5"
             android:secondaryProgressTint="@color/shows_purple"
             android:progressTint="@color/shows_purple"
             app:layout_constraintBottom_toTopOf="@id/review_text_input_layout"

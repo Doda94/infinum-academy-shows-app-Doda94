@@ -93,7 +93,7 @@ class ShowDetailsFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener("reviewKey", this) { _, bundle ->
             val comment = bundle.getString("comment")
             val rating = bundle.getInt("rating")
-            adapter.addReview(Review(args.username,rating, comment.toString()))
+            adapter.addReview(Review(args.username, rating, comment.toString()))
             updateRatingBar()
             showReviews()
         }
