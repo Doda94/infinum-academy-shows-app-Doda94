@@ -58,7 +58,38 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         disableButton(binding.loginButton)
+        initEmailListener()
+        initPasswordListener()
+        initLoginButtonListener()
 
+    }
+
+    fun initRememberMeListener() {
+        binding.rememberMeCheckbox.setOnClickListener{
+
+        }
+    }
+
+    fun initLoginButtonListener() {
+        binding.loginButton.setOnClickListener {
+            val username: String = binding.emailEditText.text.toString().substringBefore("@")
+            val directions = LoginFragmentDirections.actionLoginFragmentToShowDetailsNestedGraph(username)
+            findNavController().navigate(directions)
+        }
+    }
+
+    fun initPasswordListener() {
+        binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
+            passwordValid = text.toString().length >= passwordValidLength
+            if (emailValid && passwordValid) {
+                enableButton(binding.loginButton)
+            } else {
+                disableButton(binding.loginButton)
+            }
+        }
+    }
+
+    fun initEmailListener() {
         binding.emailEditText.doOnTextChanged { text, _, _, _ ->
             emailValid = isEmailValid(text.toString())
             if (emailValid && passwordValid) {
@@ -71,22 +102,6 @@ class LoginFragment : Fragment() {
             // TODO : fix login button when this enabled
             //binding.emailEditText.error = getString(R.string.email_error)
             //}
-        }
-
-        binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
-            passwordValid = text.toString().length >= passwordValidLength
-            if (emailValid && passwordValid) {
-                enableButton(binding.loginButton)
-            } else {
-                disableButton(binding.loginButton)
-            }
-        }
-
-
-        binding.loginButton.setOnClickListener {
-            val username: String = binding.emailEditText.text.toString().substringBefore("@")
-            val directions = LoginFragmentDirections.actionLoginFragmentToShowDetailsNestedGraph(username)
-            findNavController().navigate(directions)
         }
     }
 
