@@ -1,10 +1,13 @@
 package com.doda.shows
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.edit
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,6 +19,12 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
 
     private val binding get() = _binding!!
+
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private val rememberMe = "REMEMBER_ME"
+    private val usernameSharedPreferences= "USERNAME"
+    private val loginSharedPreferences = "LOGIN"
 
     private val passwordValidLength = 6
 
@@ -46,6 +55,11 @@ class LoginFragment : Fragment() {
         button.alpha = 1F
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        skipLogin()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,24 +75,36 @@ class LoginFragment : Fragment() {
         initEmailListener()
         initPasswordListener()
         initLoginButtonListener()
+        initRememberMeListener()
 
     }
 
-    fun initRememberMeListener() {
-        binding.rememberMeCheckbox.setOnClickListener{
-
+    private fun initRememberMeListener() {
+        binding.rememberMeCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked){
+                sharedPreferences.edit {
+                    putBoolean(rememberMe, true)
+                }
+            }else {
+                sharedPreferences.edit {
+                    putBoolean(rememberMe, false)
+                }
+            }
         }
     }
 
-    fun initLoginButtonListener() {
+    private fun initLoginButtonListener() {
         binding.loginButton.setOnClickListener {
             val username: String = binding.emailEditText.text.toString().substringBefore("@")
-            val directions = LoginFragmentDirections.actionLoginFragmentToShowDetailsNestedGraph(username)
+            sharedPreferences.edit {
+                putString(usernameSharedPreferences, username)
+            }
+            val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph(username)
             findNavController().navigate(directions)
         }
     }
 
-    fun initPasswordListener() {
+    private fun initPasswordListener() {
         binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
             passwordValid = text.toString().length >= passwordValidLength
             if (emailValid && passwordValid) {
@@ -89,7 +115,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun initEmailListener() {
+    private fun initEmailListener() {
         binding.emailEditText.doOnTextChanged { text, _, _, _ ->
             emailValid = isEmailValid(text.toString())
             if (emailValid && passwordValid) {
@@ -102,6 +128,16 @@ class LoginFragment : Fragment() {
             // TODO : fix login button when this enabled
             //binding.emailEditText.error = getString(R.string.email_error)
             //}
+        }
+    }
+
+    private fun skipLogin(){
+        sharedPreferences = requireContext().getSharedPreferences(loginSharedPreferences, Context.MODE_PRIVATE)
+        val rememberMe = sharedPreferences.getBoolean(rememberMe, false)
+        val username = sharedPreferences.getString(usernameSharedPreferences, "")
+        if (rememberMe){
+            val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph(username.toString())
+            findNavController().navigate(directions)
         }
     }
 

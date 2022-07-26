@@ -43,13 +43,13 @@
                     app:title="@string/app_name">
 
                     <ImageButton
-                        android:id="@+id/log_out_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/profile_bottom_sheet"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="end"
-                        android:src="@drawable/ic_baseline_login_24"
-                        android:background="@color/white"
-                        app:tint="@color/shows_purple"/>
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_profile_placeholder"
+                        android:background="@color/white"/>
 
                 </androidx.appcompat.widget.Toolbar>
 

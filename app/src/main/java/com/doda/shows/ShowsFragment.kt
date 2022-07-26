@@ -41,7 +41,15 @@ class ShowsFragment : Fragment() {
 
         initShowsRecycler()
         initLoadShowsButton()
-        initlogOutButton()
+        initProfileBottomSheetButton()
+
+    }
+
+    private fun initProfileBottomSheetButton() {
+        binding.profileBottomSheet.setOnClickListener {
+            val directions = ShowsFragmentDirections.actionShowsFragmentToProfileBottomSheetFragment2(args.username)
+            findNavController().navigate(directions)
+        }
     }
 
     private fun initShowsRecycler() {
@@ -67,12 +75,6 @@ class ShowsFragment : Fragment() {
             binding.showsRecyclerView.isVisible = true
             binding.loadShowsButton.isVisible = false
             binding.loadShowsText.isVisible = false
-        }
-    }
-
-    private fun initlogOutButton() {
-        binding.logOutButton.setOnClickListener {
-            findNavController().popBackStack()
         }
     }
 
