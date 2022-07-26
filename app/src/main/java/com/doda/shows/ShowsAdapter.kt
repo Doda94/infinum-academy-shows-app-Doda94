@@ -23,6 +23,10 @@ class ShowsAdapter(
         notifyDataSetChanged()
     }
 
+    fun getShowId(show: Show): Int {
+        return show.id
+    }
+
     fun getShowName(show: Show): String {
         return show.name
     }

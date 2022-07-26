@@ -34,13 +34,11 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         binding.profileNameBottomSheet.text = args.username
 
         binding.changeProfilePictureButton.setOnClickListener {
-            val photo = Intent("android.media.action.IMAGE_CAPTURE")
-            startActivityForResult(photo, requestImageCapture)
-            // TODO: make this working
+        
         }
 
         binding.logoutButtonBottomSheet.setOnClickListener {
-            val directions = ProfileBottomSheetFragmentDirections.actionProfileBottomSheetFragment2Pop()
+            val directions = ProfileBottomSheetFragmentDirections.actionProfileBottomSheetFragmentToMain()
             findNavController().navigate(directions)
         }
 

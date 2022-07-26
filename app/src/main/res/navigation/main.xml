@@ -45,7 +45,7 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
             <action
                 android:id="@+id/action_showsFragment_to_profileBottomSheetFragment2"
-                app:destination="@id/profileBottomSheetFragment2"/>
+                app:destination="@id/profileBottomSheetFragment"/>
 
         </fragment>
 
@@ -61,6 +61,10 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+            <argument
+                android:name="show_id"
+                app:argType="integer"/>
 
             <argument
                 android:name="username"
@@ -88,7 +92,7 @@
         </dialog>
 
         <dialog
-            android:id="@+id/profileBottomSheetFragment2"
+            android:id="@+id/profileBottomSheetFragment"
             android:name="com.doda.shows.ProfileBottomSheetFragment"
             android:label="ProfileBottomSheetFragment"
             tools:layout="@layout/fragment_profile_bottom_sheet">
@@ -98,9 +102,10 @@
                 app:argType="string"/>
 
             <action
-                android:id="@+id/action_profileBottomSheetFragment2_pop"
+                android:id="@+id/action_profileBottomSheetFragment_to_main"
                 app:destination="@id/loginFragment"
-                app:popUpTo="@id/loginFragment"/>
+                app:popUpTo="@id/shows_nested_graph"
+                app:popUpToInclusive="true"/>
 
         </dialog>
 

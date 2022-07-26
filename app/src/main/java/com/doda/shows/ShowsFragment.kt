@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,8 @@ class ShowsFragment : Fragment() {
 
     private lateinit var adapter: ShowsAdapter
 
+    private val viewModel by viewModels<ShowsViewModel>()
+
     private val args by navArgs<ShowsFragmentArgs>()
 
     override fun onCreateView(
@@ -34,12 +37,11 @@ class ShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        shows = listOf(
-            Show("0", "TheOffice", getString(R.string.TheOffice_description), R.drawable.ic_office),
-            Show("1", "Stranger Things", getString(R.string.StrangerThings_description), R.drawable.ic_stranger_things),
-        )
+        viewModel.showsliveData.observe(viewLifecycleOwner) { showsLiveData ->
+            shows= showsLiveData
+            initShowsRecycler()
+        }
 
-        initShowsRecycler()
         initLoadShowsButton()
         initProfileBottomSheetButton()
 
@@ -56,6 +58,7 @@ class ShowsFragment : Fragment() {
         adapter = ShowsAdapter(shows) { show ->
             val username = args.username
             val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(
+                adapter.getShowId(show),
                 username,
                 adapter.getShowName(show),
                 adapter.getShowDesc(show),

@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,13 +16,15 @@ import com.doda.shows.databinding.FragmentShowDetailsBinding
 
 class ShowDetailsFragment : Fragment() {
 
-    private var reviews: List<Review> = listOf()
+    private lateinit var reviews: List<Review>
 
     private var _binding: FragmentShowDetailsBinding? = null
 
     private val binding get() = _binding!!
 
     private lateinit var adapter: ReviewsAdapter
+
+    private val viewModel by viewModels<ShowDetailsViewModel>()
 
     private val args by navArgs<ShowDetailsFragmentArgs>()
 
@@ -34,11 +38,7 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initReviewsRecycler()
         addShowInfo()
-        adapter.updateReviews(reviews)
-        showReviews()
 
         binding.writeReviewButton.setOnClickListener {
             openReviewBottomSheet()
@@ -46,6 +46,13 @@ class ShowDetailsFragment : Fragment() {
 
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+
+        viewModel.reviewLiveData.observe(viewLifecycleOwner) { reviewLiveData ->
+            reviews = reviewLiveData
+            initReviewsRecycler()
+            adapter.updateReviews(reviews)
+            showReviews()
         }
 
         initSubmitReviewListener()
@@ -76,12 +83,7 @@ class ShowDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateRatingBar() {
-        binding.reviewsText.text = getString(R.string.rating_bar_text, adapter.itemCount, adapter.average)
-        binding.ratingBar.rating = adapter.average
-    }
-
-    private fun addShowInfo() {
+   private fun addShowInfo() {
         binding.toolbarLayout.title = args.showName
         // TODO: add blank img
         val imageResourceId: Int = args.showImg
@@ -94,8 +96,6 @@ class ShowDetailsFragment : Fragment() {
             val comment = bundle.getString("comment")
             val rating = bundle.getInt("rating")
             adapter.addReview(Review(args.username, rating, comment.toString()))
-            updateRatingBar()
-            showReviews()
         }
     }
 
