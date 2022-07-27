@@ -76,6 +76,7 @@ class LoginFragment : Fragment() {
         initPasswordListener()
         initLoginButtonListener()
         initRememberMeListener()
+        initRegisterButtonListener()
 
     }
 
@@ -90,6 +91,13 @@ class LoginFragment : Fragment() {
                     putBoolean(REMEMBER_ME, false)
                 }
             }
+        }
+    }
+
+    private fun initRegisterButtonListener(){
+        binding.registerButton.setOnClickListener{
+            val directions = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            findNavController().navigate(directions)
         }
     }
 

@@ -25,8 +25,9 @@
     <string name="rating_error">Rating error placeholder</string>
     <string name="remember_me"> Remember me</string>
     <string name="change_profile_photo">Change profile photo</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
     <string name="no_camera_found">No camera found!</string>
+    <string name="register_button">REGISTER</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="register">Register</string>
 </resources>

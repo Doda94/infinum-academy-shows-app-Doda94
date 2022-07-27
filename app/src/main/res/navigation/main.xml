@@ -16,6 +16,11 @@
             app:destination="@id/shows_nested_graph"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"/>
+
     </fragment>
 
     <navigation
@@ -108,5 +113,11 @@
         </dialog>
 
     </navigation>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.doda.shows.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register"/>
 
 </navigation>
