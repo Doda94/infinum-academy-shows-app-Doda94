@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.doda.shows.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_show_details_nested_graph"
+            app:destination="@id/shows_nested_graph"/>
+    </fragment>
+
+    <navigation
+        android:id="@+id/shows_nested_graph"
+        app:startDestination="@id/showsFragment">
+
+        <argument
+            android:name="username"
+            app:argType="string"/>
+
+        <fragment
+            android:id="@+id/showsFragment"
+            android:name="com.doda.shows.ShowsFragment"
+            android:label="ShowsFragment"
+            tools:layout="@layout/fragment_shows">
+
+            <argument
+                android:name="username"
+                app:argType="string"/>
+
+            <action
+                android:id="@+id/action_showsFragment_to_showDetailsFragment"
+                app:destination="@id/showDetailsFragment" app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/showDetailsFragment"
+            android:name="com.doda.shows.ShowDetailsFragment"
+            android:label="ShowDetailsFragment"
+            tools:layout="@layout/fragment_show_details">
+
+            <action android:id="@+id/action_showDetailsFragment_to_addReviewBottomSheetFragment"
+                app:destination="@id/addReviewBottomSheetFragment" app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+            <argument
+                android:name="username"
+                app:argType="string"/>
+
+            <argument
+                android:name="show_name"
+                app:argType="string"/>
+
+            <argument
+                android:name="show_desc"
+                app:argType="string"/>
+
+            <argument
+                android:name="show_img"
+                app:argType="integer"/>
+
+        </fragment>
+
+        <dialog
+            android:id="@+id/addReviewBottomSheetFragment"
+            android:name="com.doda.shows.AddReviewBottomSheetFragment"
+            android:label="fragment_add_review_bottom_sheet"
+            tools:layout="@layout/fragment_add_review_bottom_sheet">
+        </dialog>
+
+    </navigation>
+
+</navigation>

@@ -41,9 +41,7 @@ class ShowsAdapter(
             binding.showName.text = item.name
             binding.showDesc.text = item.description
             binding.showImage.setImageResource(item.imageResourceId)
-            binding.cardContainer.setOnClickListener {
-                onItemClickCallback(item)
-            }
+            binding.cardContainer.setOnClickListener { onItemClickCallback(item) }
         }
 
     }
