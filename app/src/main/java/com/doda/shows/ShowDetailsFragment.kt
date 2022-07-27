@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doda.shows.databinding.FragmentShowDetailsBinding
 
+private const val COMMENT = "COMMENT"
+private const val RATING = "RATING"
+private const val REVIEW_KEY = "REVIEW_KEY"
+
 class ShowDetailsFragment : Fragment() {
 
     private var reviews: List<Review> = listOf()
@@ -90,9 +94,9 @@ class ShowDetailsFragment : Fragment() {
     }
 
     private fun initSubmitReviewListener() {
-        parentFragmentManager.setFragmentResultListener("reviewKey", this) { _, bundle ->
-            val comment = bundle.getString("comment")
-            val rating = bundle.getInt("rating")
+        parentFragmentManager.setFragmentResultListener(REVIEW_KEY, this) { _, bundle ->
+            val comment = bundle.getString(COMMENT)
+            val rating = bundle.getInt(RATING)
             adapter.addReview(Review(args.username, rating, comment.toString()))
             updateRatingBar()
             showReviews()
