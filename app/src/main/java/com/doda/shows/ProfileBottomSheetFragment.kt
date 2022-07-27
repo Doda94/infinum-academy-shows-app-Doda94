@@ -13,9 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.navigation.fragment.findNavController
@@ -23,8 +21,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.doda.shows.databinding.FragmentProfileBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.io.File
-import java.util.jar.Manifest
 
 private const val REMEMBER_ME = "REMEMBER_ME"
 private const val USERNAME_SHARED_PREFERENCES = "USERNAME"
@@ -57,8 +53,6 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val photo = result.data?.extras?.get("data") as? Bitmap
-                FileUtil.createImageFile(requireContext())
-                uri = Uri.fromFile(FileUtil.getImageFile(requireContext()))
                 photo?.let {
                     Glide
                         .with(requireContext())
@@ -76,21 +70,32 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
+    private fun checkPermissionAndOpenCamera(){
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_DENIED
+        ) {
+            openCamera()
+        } else {
+            cameraPermissionContract.launch(android.Manifest.permission.CAMERA)
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ){
+                openCamera()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.profileNameBottomSheet.text = args.username
 
         binding.changeProfilePictureButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    android.Manifest.permission.CAMERA
-                ) != PackageManager.PERMISSION_DENIED
-            ) {
-                openCamera()
-            } else {
-                cameraPermissionContract.launch(android.Manifest.permission.CAMERA)
-            }
+            checkPermissionAndOpenCamera()
         }
 
         binding.logoutButtonBottomSheet.setOnClickListener {
