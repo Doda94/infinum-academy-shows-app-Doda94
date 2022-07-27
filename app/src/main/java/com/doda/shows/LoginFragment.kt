@@ -14,6 +14,10 @@ import androidx.navigation.fragment.findNavController
 import com.doda.shows.databinding.FragmentLoginBinding
 import java.util.regex.Pattern
 
+private const val REMEMBER_ME = "REMEMBER_ME"
+private const val USERNAME_SHARED_PREFERENCES = "USERNAME"
+private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
+
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
@@ -21,10 +25,6 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
-
-    private val rememberMe = "REMEMBER_ME"
-    private val usernameSharedPreferences= "USERNAME"
-    private val loginSharedPreferences = "LOGIN"
 
     private val passwordValidLength = 6
 
@@ -81,13 +81,13 @@ class LoginFragment : Fragment() {
 
     private fun initRememberMeListener() {
         binding.rememberMeCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 sharedPreferences.edit {
-                    putBoolean(rememberMe, true)
+                    putBoolean(REMEMBER_ME, true)
                 }
-            }else {
+            } else {
                 sharedPreferences.edit {
-                    putBoolean(rememberMe, false)
+                    putBoolean(REMEMBER_ME, false)
                 }
             }
         }
@@ -97,7 +97,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val username: String = binding.emailEditText.text.toString().substringBefore("@")
             sharedPreferences.edit {
-                putString(usernameSharedPreferences, username)
+                putString(USERNAME_SHARED_PREFERENCES, username)
             }
             val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph(username)
             findNavController().navigate(directions)
@@ -131,11 +131,11 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun skipLogin(){
-        sharedPreferences = requireContext().getSharedPreferences(loginSharedPreferences, Context.MODE_PRIVATE)
-        val rememberMe = sharedPreferences.getBoolean(rememberMe, false)
-        val username = sharedPreferences.getString(usernameSharedPreferences, "")
-        if (rememberMe){
+    private fun skipLogin() {
+        sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        val rememberMe = sharedPreferences.getBoolean(REMEMBER_ME, false)
+        val username = sharedPreferences.getString(USERNAME_SHARED_PREFERENCES, "")
+        if (rememberMe) {
             val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph(username.toString())
             findNavController().navigate(directions)
         }

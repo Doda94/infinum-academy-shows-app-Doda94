@@ -2,8 +2,6 @@ package com.doda.shows
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.doda.shows.databinding.ItemReviewBinding
 
@@ -19,7 +17,7 @@ class ReviewsAdapter(
         return ReviewViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) = holder.bind(items[position])
+     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) = holder.bind(items[position])
 
     override fun getItemCount(): Int = items.size
 
