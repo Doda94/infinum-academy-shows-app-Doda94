@@ -16,8 +16,8 @@ class RegistrationViewModel : ViewModel() {
     }
 
     fun onRegisterButtonClicked(email: String, password: String, confirmPassword: String) {
-        val registerRequest = RegisterRequest (email, password, confirmPassword)
-        ApiModule.retrofit.register(registerRequest).enqueue(object: Callback<RegisterResponse>{
+        val registerRequest = RegisterRequest(email, password, confirmPassword)
+        ApiModule.retrofit.register(registerRequest).enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                 registrationResultLiveData.value = response.isSuccessful
             }
