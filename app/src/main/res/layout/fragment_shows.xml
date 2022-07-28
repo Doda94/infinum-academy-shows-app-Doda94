@@ -42,14 +42,15 @@
                     app:layout_collapseMode="pin"
                     app:title="@string/app_name">
 
-                    <ImageButton
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profile_bottom_sheet"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="end"
-                        android:scaleType="fitCenter"
+                        android:clickable="true"
                         android:src="@drawable/ic_profile_placeholder"
-                        android:background="@color/white"/>
+                        app:civ_border_color="@color/shows_purple"
+                        app:civ_border_width="1dp"/>
 
                 </androidx.appcompat.widget.Toolbar>
 
