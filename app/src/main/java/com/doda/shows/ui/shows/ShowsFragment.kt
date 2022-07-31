@@ -60,17 +60,9 @@ class ShowsFragment : Fragment() {
 
     private fun initShowsRecycler() {
         adapter = ShowsAdapter(shows) { show ->
-            val username = args.username
-            val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(
-                adapter.getShowId(show),
-                username,
-                adapter.getShowName(show),
-                adapter.getShowDesc(show),
-                adapter.getShowImg(show)
-            )
+            val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(show.id)
             findNavController().navigate(directions)
         }
-
         binding.showsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         binding.showsRecyclerView.adapter = adapter
@@ -79,10 +71,10 @@ class ShowsFragment : Fragment() {
     private fun initLoadShowsButton() {
         binding.loadShowsButton.setOnClickListener {
             viewModel.onGetShowsButtonClicked()
-//            adapter.loadShows(shows)
-//            binding.showsRecyclerView.isVisible = true
-//            binding.loadShowsButton.isVisible = false
-//            binding.loadShowsText.isVisible = false
+            adapter.loadShows(shows)
+            binding.showsRecyclerView.isVisible = true
+            binding.loadShowsButton.isVisible = false
+            binding.loadShowsText.isVisible = false
         }
     }
 

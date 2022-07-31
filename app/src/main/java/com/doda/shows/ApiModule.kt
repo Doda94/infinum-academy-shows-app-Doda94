@@ -30,7 +30,7 @@ object ApiModule {
             .addInterceptor(AuthInterceptor(sharedPreferences))
             .build()
 
-        retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(Json{ignoreUnknownKeys = true}.asConverterFactory("application/json".toMediaType()))
             .client(okhttp).build().create(ShowsApiService::class.java)
     }
 

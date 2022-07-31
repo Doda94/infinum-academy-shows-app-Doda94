@@ -3,11 +3,12 @@ package com.doda.shows.ui.shows
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.doda.shows.Show
 import com.doda.shows.databinding.ViewShowItemBinding
 
 class ShowsAdapter(
-    private var items: List<Show>,
+    private var items: Array<Show>,
     private val onItemClickCallback: (Show) -> Unit
 ) : RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
 
@@ -19,33 +20,19 @@ class ShowsAdapter(
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) = holder.bind(items[position])
 
     override fun getItemCount(): Int = items.size
-    fun loadShows(shows: List<Show>) {
+    fun loadShows(shows: Array<Show>) {
         items = shows
         notifyDataSetChanged()
-    }
-
-    fun getShowId(show: Show): Int {
-        return show.id
-    }
-
-    fun getShowName(show: Show): String {
-        return show.name
-    }
-
-    fun getShowDesc(show: Show): String {
-        return show.description
-    }
-
-    fun getShowImg(show: Show): Int {
-        return show.imageResourceId
     }
 
     inner class ShowViewHolder(private val binding: ViewShowItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Show) {
-            binding.showName.text = item.name
-            binding.showDesc.text = item.description
-            binding.showImage.setImageResource(item.imageResourceId)
+            binding.showName.text = item.title
+            binding.showDesc.text = item.desc
+            Glide.with(binding.showImage.context)
+                .load(item.img_url)
+                .into(binding.showImage)
             binding.cardContainer.setOnClickListener { onItemClickCallback(item) }
         }
 

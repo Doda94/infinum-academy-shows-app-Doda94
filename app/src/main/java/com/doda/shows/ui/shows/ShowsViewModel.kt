@@ -1,14 +1,14 @@
 package com.doda.shows.ui.shows
 
-import android.content.SharedPreferences
-import android.widget.Toast
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.doda.shows.ApiModule
-import com.doda.shows.R
+import com.doda.shows.FileUtil
 import com.doda.shows.Show
-import okhttp3.Interceptor
+import java.io.File
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,9 +20,9 @@ private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class ShowsViewModel : ViewModel() {
 
-    val shows = arrayOf<Show>()
+    var shows = arrayOf<Show>()
 
-    private val _showsLiveData = MutableLiveData(
+    private var _showsLiveData = MutableLiveData(
         shows
     )
 
@@ -33,13 +33,23 @@ class ShowsViewModel : ViewModel() {
             override fun onResponse(call: Call<ShowsResponse>, response: Response<ShowsResponse>) {
                 if (response.isSuccessful){
                     val body = response.body()
+                    if (body != null) {
+                        shows = body.shows
+                        _showsLiveData.value = shows
+                    }
                 }
             }
 
             override fun onFailure(call: Call<ShowsResponse>, t: Throwable) {
-                return
+                // TODO
             }
 
         })
+    }
+
+    fun changeProfilePhoto(context: Context){
+//        val requestBody = MultipartBody.Builder()
+//            .setType(MultipartBody.FORM)
+//            .addFormDataPart("image", "pfp.png",File(FileUtil.getImageFile(context)))
     }
 }

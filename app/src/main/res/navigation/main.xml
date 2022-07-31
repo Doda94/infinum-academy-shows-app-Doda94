@@ -66,26 +66,7 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-
-            <argument
-                android:name="show_id"
-                app:argType="integer"/>
-
-            <argument
-                android:name="username"
-                app:argType="string"/>
-
-            <argument
-                android:name="show_name"
-                app:argType="string"/>
-
-            <argument
-                android:name="show_desc"
-                app:argType="string"/>
-
-            <argument
-                android:name="show_img"
-                app:argType="integer"/>
+            <argument android:name="id" app:argType="string"/>
 
         </fragment>
 
@@ -94,6 +75,7 @@
             android:name="com.doda.shows.ui.showdetails.AddReviewBottomSheetFragment"
             android:label="fragment_add_review_bottom_sheet"
             tools:layout="@layout/fragment_add_review_bottom_sheet">
+            <argument android:name="show_id" app:argType="integer"/>
         </dialog>
 
         <dialog
