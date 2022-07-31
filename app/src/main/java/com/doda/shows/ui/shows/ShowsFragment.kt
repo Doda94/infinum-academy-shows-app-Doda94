@@ -1,4 +1,4 @@
-package com.doda.shows
+package com.doda.shows.ui.shows
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.doda.shows.Show
 import com.doda.shows.databinding.FragmentShowsBinding
 
 class ShowsFragment : Fragment() {

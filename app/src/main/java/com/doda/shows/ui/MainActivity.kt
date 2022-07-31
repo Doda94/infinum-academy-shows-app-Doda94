@@ -1,4 +1,4 @@
-package com.doda.shows
+package com.doda.shows.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

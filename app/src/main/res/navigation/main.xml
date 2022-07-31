@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.doda.shows.LoginFragment"
+        android:name="com.doda.shows.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -33,7 +33,7 @@
 
         <fragment
             android:id="@+id/showsFragment"
-            android:name="com.doda.shows.ShowsFragment"
+            android:name="com.doda.shows.ui.shows.ShowsFragment"
             android:label="ShowsFragment"
             tools:layout="@layout/fragment_shows">
 
@@ -56,7 +56,7 @@
 
         <fragment
             android:id="@+id/showDetailsFragment"
-            android:name="com.doda.shows.ShowDetailsFragment"
+            android:name="com.doda.shows.ui.showdetails.ShowDetailsFragment"
             android:label="ShowDetailsFragment"
             tools:layout="@layout/fragment_show_details">
 
@@ -91,14 +91,14 @@
 
         <dialog
             android:id="@+id/addReviewBottomSheetFragment"
-            android:name="com.doda.shows.AddReviewBottomSheetFragment"
+            android:name="com.doda.shows.ui.showdetails.AddReviewBottomSheetFragment"
             android:label="fragment_add_review_bottom_sheet"
             tools:layout="@layout/fragment_add_review_bottom_sheet">
         </dialog>
 
         <dialog
             android:id="@+id/profileBottomSheetFragment"
-            android:name="com.doda.shows.ProfileBottomSheetFragment"
+            android:name="com.doda.shows.ui.shows.ProfileBottomSheetFragment"
             android:label="ProfileBottomSheetFragment"
             tools:layout="@layout/fragment_profile_bottom_sheet">
 
@@ -116,7 +116,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.doda.shows.RegisterFragment"
+        android:name="com.doda.shows.ui.register.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register"/>
 

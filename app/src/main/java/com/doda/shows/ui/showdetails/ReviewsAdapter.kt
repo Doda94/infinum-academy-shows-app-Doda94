@@ -1,8 +1,9 @@
-package com.doda.shows
+package com.doda.shows.ui.showdetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.doda.shows.Review
 import com.doda.shows.databinding.ItemReviewBinding
 
 class ReviewsAdapter(

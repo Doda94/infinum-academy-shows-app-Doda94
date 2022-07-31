@@ -1,4 +1,4 @@
-package com.doda.shows
+package com.doda.shows.ui.register
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

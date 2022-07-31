@@ -1,13 +1,12 @@
-package com.doda.shows
+package com.doda.shows.ui.showdetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import com.doda.shows.R
 import com.doda.shows.databinding.FragmentAddReviewBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

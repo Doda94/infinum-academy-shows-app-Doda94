@@ -1,7 +1,8 @@
-package com.doda.shows
+package com.doda.shows.ui.showdetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.doda.shows.Review
 
 class ShowDetailsViewModel : ViewModel() {
 

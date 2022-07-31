@@ -1,4 +1,4 @@
-package com.doda.shows
+package com.doda.shows.ui.register
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.doda.shows.databinding.FragmentLoginBinding
+import com.doda.shows.ApiModule
 import com.doda.shows.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -17,7 +17,7 @@ class RegisterFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel:RegistrationViewModel by viewModels()
+    private val viewModel: RegistrationViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,5 +1,6 @@
-package com.doda.shows
+package com.doda.shows.ui.register
 
+import com.doda.shows.User
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

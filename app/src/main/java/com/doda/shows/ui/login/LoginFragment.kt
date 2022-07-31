@@ -1,4 +1,4 @@
-package com.doda.shows
+package com.doda.shows.ui.login
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,6 +13,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.doda.shows.ApiModule
 import com.doda.shows.databinding.FragmentLoginBinding
 import java.util.regex.Pattern
 
@@ -83,6 +84,7 @@ class LoginFragment : Fragment() {
         initLoginButtonListener()
         initRememberMeListener()
         initRegisterButtonListener()
+        initLoginLiveDataObserver()
 
     }
 

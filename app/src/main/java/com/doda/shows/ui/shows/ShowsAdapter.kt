@@ -1,8 +1,9 @@
-package com.doda.shows
+package com.doda.shows.ui.shows
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.doda.shows.Show
 import com.doda.shows.databinding.ViewShowItemBinding
 
 class ShowsAdapter(

@@ -1,7 +1,10 @@
-package com.doda.shows
+package com.doda.shows.ui.shows
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.doda.shows.R
+import com.doda.shows.Show
 
 class ShowsViewModel : ViewModel() {
 
@@ -10,9 +13,9 @@ class ShowsViewModel : ViewModel() {
         Show(1, "Stranger Things", "test1", R.drawable.ic_stranger_things),
     )
 
-    private val showsLiveData_ = MutableLiveData(
+    private val _showsLiveData = MutableLiveData(
         shows
     )
 
-    val showsliveData get() = showsLiveData_
+    val showsliveData: LiveData<List<Show>> = _showsLiveData
 }

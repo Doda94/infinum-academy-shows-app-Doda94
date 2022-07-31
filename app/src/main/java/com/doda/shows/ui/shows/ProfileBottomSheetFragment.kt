@@ -1,4 +1,4 @@
-package com.doda.shows
+package com.doda.shows.ui.shows
 
 import android.app.Activity
 import android.content.Context
