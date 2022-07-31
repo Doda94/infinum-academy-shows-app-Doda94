@@ -1,5 +1,7 @@
 package com.doda.shows.ui.login
 
+import android.content.Context
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +9,11 @@ import com.doda.shows.ApiModule
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+private const val ACCESS_TOKEN = "ACCESS_TOKEN"
+private const val USER_EMAIL = "USER_EMAIL"
+private const val CLIENT = "CLIENT"
+private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class LoginViewModel : ViewModel() {
 
@@ -16,11 +23,17 @@ class LoginViewModel : ViewModel() {
         return loginResultLiveData
     }
 
-    fun onLoginButtonClicked(email: String, password: String) {
+    fun onLoginButtonClicked(email: String, password: String, context: Context) {
+        val sharedPreferences = context.getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val loginRequest = LoginRequest(email, password)
         ApiModule.retrofit.login(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 loginResultLiveData.value = response.isSuccessful
+                sharedPreferences.edit {
+                    putString(ACCESS_TOKEN, response.headers()["access-token"])
+                    putString(CLIENT, response.headers()["client"])
+                    putString(USER_EMAIL, response.headers()["uid"])
+                }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

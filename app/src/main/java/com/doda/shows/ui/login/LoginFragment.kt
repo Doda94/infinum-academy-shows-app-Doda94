@@ -76,7 +76,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ApiModule.initRetrofit()
+        ApiModule.initRetrofit(requireContext())
 
         disableButton(binding.loginButton)
         initEmailListener()
@@ -126,7 +126,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            viewModel.onLoginButtonClicked(email, password)
+            viewModel.onLoginButtonClicked(email, password, requireContext())
         }
     }
 

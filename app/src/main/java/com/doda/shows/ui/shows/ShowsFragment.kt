@@ -10,12 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.doda.shows.ApiModule
 import com.doda.shows.Show
 import com.doda.shows.databinding.FragmentShowsBinding
 
 class ShowsFragment : Fragment() {
 
-    private lateinit var shows: List<Show>
+    private lateinit var shows: Array<Show>
 
     private var _binding: FragmentShowsBinding? = null
 
@@ -42,6 +43,8 @@ class ShowsFragment : Fragment() {
             shows= showsLiveData
             initShowsRecycler()
         }
+
+        ApiModule.initRetrofit(requireContext())
 
         initLoadShowsButton()
         initProfileBottomSheetButton()
@@ -75,10 +78,11 @@ class ShowsFragment : Fragment() {
 
     private fun initLoadShowsButton() {
         binding.loadShowsButton.setOnClickListener {
-            adapter.loadShows(shows)
-            binding.showsRecyclerView.isVisible = true
-            binding.loadShowsButton.isVisible = false
-            binding.loadShowsText.isVisible = false
+            viewModel.onGetShowsButtonClicked()
+//            adapter.loadShows(shows)
+//            binding.showsRecyclerView.isVisible = true
+//            binding.loadShowsButton.isVisible = false
+//            binding.loadShowsText.isVisible = false
         }
     }
 
