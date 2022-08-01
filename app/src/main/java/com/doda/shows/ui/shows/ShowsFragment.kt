@@ -34,8 +34,6 @@ class ShowsFragment : Fragment() {
 
     private val viewModel by viewModels<ShowsViewModel>()
 
-    private val args by navArgs<ShowsFragmentArgs>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,7 +69,7 @@ class ShowsFragment : Fragment() {
 
     private fun initProfileBottomSheetButton() {
         binding.profileBottomSheet.setOnClickListener {
-            val directions = ShowsFragmentDirections.actionShowsFragmentToProfileBottomSheetFragment2(args.username)
+            val directions = ShowsFragmentDirections.actionShowsFragmentToProfileBottomSheetFragment2()
             findNavController().navigate(directions)
         }
     }

@@ -8,11 +8,16 @@ import com.doda.shows.ui.showdetails.ReviewRequest
 import com.doda.shows.ui.showdetails.ReviewResponse
 import com.doda.shows.ui.showdetails.ReviewsResponse
 import com.doda.shows.ui.showdetails.ShowDetailsResponse
+import com.doda.shows.ui.shows.ProfilePhotoUploadResponse
 import com.doda.shows.ui.shows.ShowsResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface ShowsApiService {
@@ -34,5 +39,9 @@ interface ShowsApiService {
 
     @POST("/reviews")
     fun review(@Body request: ReviewRequest): Call<ReviewResponse>
+
+    @Multipart
+    @POST("/users")
+    fun profilePhotoUpload(@Part img: MultipartBody.Part): Call<ProfilePhotoUploadResponse>
 
 }

@@ -27,19 +27,11 @@
         android:id="@+id/shows_nested_graph"
         app:startDestination="@id/showsFragment">
 
-        <argument
-            android:name="username"
-            app:argType="string"/>
-
         <fragment
             android:id="@+id/showsFragment"
             android:name="com.doda.shows.ui.shows.ShowsFragment"
             android:label="ShowsFragment"
             tools:layout="@layout/fragment_shows">
-
-            <argument
-                android:name="username"
-                app:argType="string"/>
 
             <action
                 android:id="@+id/action_showsFragment_to_showDetailsFragment"
@@ -83,10 +75,6 @@
             android:name="com.doda.shows.ui.shows.ProfileBottomSheetFragment"
             android:label="ProfileBottomSheetFragment"
             tools:layout="@layout/fragment_profile_bottom_sheet">
-
-            <argument
-                android:name="username"
-                app:argType="string"/>
 
             <action
                 android:id="@+id/action_profileBottomSheetFragment_to_main"

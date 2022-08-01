@@ -1,37 +1,34 @@
 package com.doda.shows.ui.shows
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.ApiModule
 import com.doda.shows.BuildConfig
 import com.doda.shows.FileUtil
 import com.doda.shows.databinding.FragmentProfileBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.io.File
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.Call
+import retrofit2.Response
 
 private const val REMEMBER_ME = "REMEMBER_ME"
-private const val USERNAME_SHARED_PREFERENCES = "USERNAME"
+private const val ACCESS_TOKEN = "ACCESS_TOKEN"
+private const val USER_EMAIL = "USER_EMAIL"
+private const val CLIENT = "CLIENT"
 private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 private const val PP_CHANGE_KEY = "ppChangeKey"
 private const val PP_CHANGE = "ppChange"
@@ -42,18 +39,12 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val binding get() = _binding!!
 
-    private val args by navArgs<ProfileBottomSheetFragmentArgs>()
+    lateinit var photoFile: File
 
     private lateinit var sharedPreferences: SharedPreferences
 
-    private val cameraPermissionContract = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isAccepted ->
-        if (!isAccepted) {
-            Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun openCamera() {
-        val photoFile = FileUtil.createImageFile(requireContext())
+        photoFile = FileUtil.createImageFile(requireContext())!!
         photoFile?.let {
             val fileUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", it)
             resultLauncher.launch(fileUri)
@@ -62,21 +53,26 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-            uploadAvatar(binding.profilePictureBottomSheet)
             if (result) {
+                val request = photoFile.asRequestBody("multipart/form-data".toMediaType())
+                ApiModule.retrofit.profilePhotoUpload(MultipartBody.Part.createFormData("avatar", "avatar.jpg", request)).enqueue(object : retrofit2.Callback<ProfilePhotoUploadResponse>{
+                    override fun onResponse(call: Call<ProfilePhotoUploadResponse>, response: Response<ProfilePhotoUploadResponse>) {
+                        if (!response.isSuccessful){
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ProfilePhotoUploadResponse>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
                 setFragmentResult(PP_CHANGE_KEY, bundleOf(PP_CHANGE to true))
                 findNavController().popBackStack()
             }
         }
 
-    private fun uploadAvatar(imageView: ImageView) {
-        Glide
-            .with(requireContext())
-            .load(FileUtil.getImageFile(requireContext()))
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .into(imageView)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,39 +82,19 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    private fun checkPermissionAndOpenCamera() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_DENIED
-        ) {
-            openCamera()
-        } else {
-            cameraPermissionContract.launch(android.Manifest.permission.CAMERA)
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    android.Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                openCamera()
-            }
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.profileNameBottomSheet.text = args.username
+        sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        binding.profileNameBottomSheet.text = sharedPreferences.getString(USER_EMAIL, null)
 
         binding.changeProfilePictureButton.setOnClickListener {
-            checkPermissionAndOpenCamera()
+            openCamera()
         }
 
         binding.logoutButtonBottomSheet.setOnClickListener {
-            sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
             sharedPreferences.edit {
                 putBoolean(REMEMBER_ME, false)
-                remove(USERNAME_SHARED_PREFERENCES)
+                remove(LOGIN_SHARED_PREFERENCES)
             }
             val directions = ProfileBottomSheetFragmentDirections.actionProfileBottomSheetFragmentToMain()
             findNavController().navigate(directions)

@@ -18,14 +18,23 @@ class ShowDetailsViewModel : ViewModel() {
 
     val showDetailsLiveData: LiveData<Show?> = _showDetailsLiveData
 
+    private var _showRatingLiveData = MutableLiveData(0F)
+
+    val showRatingLiveData: LiveData<Float> = _showRatingLiveData
+
+    private var _showReviewsNumLiveData = MutableLiveData(0)
+
+    val showReviewsNumLiveData: LiveData<Int> = _showReviewsNumLiveData
+
     fun loadShowDetails(id: String) {
         ApiModule.retrofit.showDetails(id).enqueue(object : Callback<ShowDetailsResponse> {
             override fun onResponse(call: Call<ShowDetailsResponse>, response: Response<ShowDetailsResponse>) {
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
-                        show = body.show
-                        _showDetailsLiveData.value = show
+                        _showDetailsLiveData.value = body.show
+                        _showRatingLiveData.value = body.show.average_rating
+                        _showReviewsNumLiveData.value = body.show.no_of_reviews
                     }
                 }
             }

@@ -18,7 +18,6 @@ import com.doda.shows.databinding.FragmentLoginBinding
 import java.util.regex.Pattern
 
 private const val REMEMBER_ME = "REMEMBER_ME"
-private const val USERNAME_SHARED_PREFERENCES = "USERNAME"
 private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class LoginFragment : Fragment() {
@@ -112,8 +111,7 @@ class LoginFragment : Fragment() {
     private fun initLoginLiveDataObserver(){
         viewModel.getLoginResultLiveData().observe(viewLifecycleOwner){ isSuccessful ->
             if (isSuccessful){
-                val username = binding.emailEditText.text.toString().substringBefore("@")
-                val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph(username)
+                val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph()
                 findNavController().navigate(directions)
             }else{
                 Toast.makeText(requireContext(), "Wrong credentials!", Toast.LENGTH_SHORT).show()
@@ -160,9 +158,8 @@ class LoginFragment : Fragment() {
     private fun skipLogin() {
         sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val rememberMe = sharedPreferences.getBoolean(REMEMBER_ME, false)
-        val username = sharedPreferences.getString(USERNAME_SHARED_PREFERENCES, "")
         if (rememberMe) {
-            val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph(username.toString())
+            val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph()
             findNavController().navigate(directions)
         }
     }

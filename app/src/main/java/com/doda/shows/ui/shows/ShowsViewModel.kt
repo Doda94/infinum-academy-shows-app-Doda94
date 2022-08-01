@@ -53,37 +53,4 @@ class ShowsViewModel : ViewModel() {
 
         })
     }
-
-    fun changeProfilePhoto(context: Context, file: File?) {
-        val sharedPreferences: SharedPreferences = context.getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        val accessToken = sharedPreferences.getString(ACCESS_TOKEN, null)
-        val uid = sharedPreferences.getString(USER_EMAIL, null)
-        val client = sharedPreferences.getString(CLIENT, null)
-        if (file != null) {
-            val requestBody = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("image", "avatar.jpg", file.asRequestBody(MEDIA_TYPE_JPG))
-                .build()
-
-            val request = Request.Builder()
-                .header("token-type", "Bearer")
-                .header("access-token", accessToken.toString())
-                .header("uid", uid.toString())
-                .header("client", client.toString())
-                .post(requestBody)
-                .build()
-
-            val client = OkHttpClient()
-
-            client.newCall(request).execute().use { response ->
-                if (response.isSuccessful){
-
-                }
-                else{
-
-                }
-            }
-
-        }
-    }
 }

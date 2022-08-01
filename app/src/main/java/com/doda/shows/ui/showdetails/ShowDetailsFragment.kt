@@ -46,6 +46,7 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initReviewsRecycler(reviews)
         ApiModule.initRetrofit(requireContext())
         viewModel.loadShowDetails(args.id)
         reviewViewModel.loadReviews(args.id.toInt())
@@ -55,13 +56,8 @@ class ShowDetailsFragment : Fragment() {
             show?.let { addShowInfo(it) }
         }
 
-        reviewViewModel.reviewsLiveData.observe(viewLifecycleOwner){ reviewsLiveData ->
-            reviews = reviewsLiveData
-            initReviewsRecycler(reviews)
-            adapter.updateReviews(reviewsLiveData)
-            adapter.notifyItemInserted(reviews.size)
-            showReviews()
-        }
+        initReviewsLiveDataObserver()
+        initReviewTextLiveDataObserver()
 
         binding.writeReviewButton.setOnClickListener {
             openReviewBottomSheet()
@@ -71,6 +67,30 @@ class ShowDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+    }
+
+    private fun initReviewTextLiveDataObserver(){
+        var rating = 0F
+        var numOfReviews = 0
+        viewModel.showRatingLiveData.observe(viewLifecycleOwner){ ratingLiveData ->
+            rating = ratingLiveData
+            binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
+        }
+        viewModel.showReviewsNumLiveData.observe(viewLifecycleOwner){ reviewsNumLiveData ->
+            numOfReviews = reviewsNumLiveData
+            binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
+        }
+        binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
+    }
+
+    private fun initReviewsLiveDataObserver(){
+        reviewViewModel.reviewsLiveData.observe(viewLifecycleOwner){ reviewsLiveData ->
+            reviews = reviewsLiveData
+            if (reviews.size > 0){
+                showReviews()
+            }
+            adapter.updateReviews(reviews)
+        }
     }
 
     private fun initReviewsRecycler(reviews: Array<Review>) {
