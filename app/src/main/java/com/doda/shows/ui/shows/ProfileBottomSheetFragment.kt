@@ -24,6 +24,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.doda.shows.ApiModule
+import com.doda.shows.BuildConfig
+import com.doda.shows.FileUtil
 import com.doda.shows.databinding.FragmentProfileBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -59,14 +62,14 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-            loadAvatar(binding.profilePictureBottomSheet)
+            uploadAvatar(binding.profilePictureBottomSheet)
             if (result) {
                 setFragmentResult(PP_CHANGE_KEY, bundleOf(PP_CHANGE to true))
                 findNavController().popBackStack()
             }
         }
 
-    private fun loadAvatar(imageView: ImageView) {
+    private fun uploadAvatar(imageView: ImageView) {
         Glide
             .with(requireContext())
             .load(FileUtil.getImageFile(requireContext()))

@@ -16,6 +16,7 @@ import com.doda.shows.ApiModule
 import com.doda.shows.Show
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.doda.shows.FileUtil
 import com.doda.shows.databinding.FragmentShowsBinding
 
 private const val PP_CHANGE_KEY = "ppChangeKey"
@@ -55,18 +56,18 @@ class ShowsFragment : Fragment() {
 
         initLoadShowsButton()
         initProfileBottomSheetButton()
-        initFragmentResultListener()
+//        initFragmentResultListener()
 
     }
 
-    private fun initFragmentResultListener() {
-        setFragmentResultListener(PP_CHANGE_KEY) { _, bundle ->
-            val ppChange = bundle.getBoolean(PP_CHANGE)
-            if (ppChange) {
-                loadAvatar(binding.profileBottomSheet)
-            }
-        }
-    }
+//    private fun initFragmentResultListener() {
+//        setFragmentResultListener(PP_CHANGE_KEY) { _, bundle ->
+//            val ppChange = bundle.getBoolean(PP_CHANGE)
+//            if (ppChange) {
+//                loadAvatar(binding.profileBottomSheet)
+//            }
+//        }
+//    }
 
     private fun initProfileBottomSheetButton() {
         binding.profileBottomSheet.setOnClickListener {
