@@ -10,7 +10,7 @@ class ReviewsAdapter(
 ) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
 
     private var ratingSum: Int = 0
-    var average : Float = 0F
+    private var average : Float = 0F
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,13 +24,6 @@ class ReviewsAdapter(
     fun updateReviews(reviews: List<Review>){
         items = reviews
         notifyDataSetChanged()
-    }
-
-    fun addReview(review: Review){
-        items += review
-        ratingSum += review.rating
-        average = (ratingSum.toFloat()/items.size.toFloat())
-        notifyItemInserted(items.size)
     }
 
     inner class ReviewViewHolder(private val binding: ItemReviewBinding ) : RecyclerView.ViewHolder(binding.root) {

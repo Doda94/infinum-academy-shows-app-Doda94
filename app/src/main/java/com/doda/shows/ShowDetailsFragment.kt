@@ -57,6 +57,7 @@ class ShowDetailsFragment : Fragment() {
         viewModel.ratingLiveData.observe(viewLifecycleOwner) { ratingLiveData ->
             rating = ratingLiveData
             binding.reviewsText.text = getString(R.string.rating_bar_text, numberOfReviews, rating)
+            binding.ratingBar.rating = ratingLiveData
         }
 
         viewModel.numberOfReviewsLiveData.observe(viewLifecycleOwner) { numberOfReviewsLiveData ->
