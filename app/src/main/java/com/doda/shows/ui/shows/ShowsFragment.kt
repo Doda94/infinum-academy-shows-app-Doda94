@@ -4,15 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doda.shows.ApiModule
 import com.doda.shows.Show
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.databinding.FragmentShowsBinding
+
+private const val PP_CHANGE_KEY = "ppChangeKey"
+private const val PP_CHANGE = "ppChange"
 
 class ShowsFragment : Fragment() {
 
@@ -40,7 +47,7 @@ class ShowsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.showsliveData.observe(viewLifecycleOwner) { showsLiveData ->
-            shows= showsLiveData
+            shows = showsLiveData
             initShowsRecycler()
         }
 
@@ -48,7 +55,17 @@ class ShowsFragment : Fragment() {
 
         initLoadShowsButton()
         initProfileBottomSheetButton()
+        initFragmentResultListener()
 
+    }
+
+    private fun initFragmentResultListener() {
+        setFragmentResultListener(PP_CHANGE_KEY) { _, bundle ->
+            val ppChange = bundle.getBoolean(PP_CHANGE)
+            if (ppChange) {
+                loadAvatar(binding.profileBottomSheet)
+            }
+        }
     }
 
     private fun initProfileBottomSheetButton() {
@@ -56,6 +73,16 @@ class ShowsFragment : Fragment() {
             val directions = ShowsFragmentDirections.actionShowsFragmentToProfileBottomSheetFragment2(args.username)
             findNavController().navigate(directions)
         }
+    }
+
+    private fun loadAvatar(imageView: ImageView) {
+        Glide
+            .with(requireContext())
+            .load(FileUtil.getImageFile(requireContext()))
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(imageView)
+
     }
 
     private fun initShowsRecycler() {

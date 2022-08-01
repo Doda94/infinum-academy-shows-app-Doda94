@@ -27,6 +27,7 @@
     <string name="change_profile_photo">Change profile photo</string>
     <string name="logout">Logout</string>
     <string name="no_camera_found">No camera found!</string>
+    <string name="permission_denied">Permission denied!</string>
     <string name="register_button">REGISTER</string>
     <string name="confirm_password">Confirm password</string>
     <string name="register">Register</string>
