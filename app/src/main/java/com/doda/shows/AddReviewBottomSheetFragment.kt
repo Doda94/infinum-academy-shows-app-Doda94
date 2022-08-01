@@ -53,5 +53,5 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
+    
 }
