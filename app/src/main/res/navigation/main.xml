@@ -12,8 +12,10 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_show_details_nested_graph"
-            app:destination="@id/shows_nested_graph"/>
+            android:id="@+id/action_loginFragment_to_shows_nested_graph"
+            app:destination="@id/shows_nested_graph"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <navigation
@@ -36,9 +38,14 @@
 
             <action
                 android:id="@+id/action_showsFragment_to_showDetailsFragment"
-                app:destination="@id/showDetailsFragment" app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:destination="@id/showDetailsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            <action
+                android:id="@+id/action_showsFragment_to_profileBottomSheetFragment2"
+                app:destination="@id/profileBottomSheetFragment"/>
 
         </fragment>
 
@@ -49,9 +56,15 @@
             tools:layout="@layout/fragment_show_details">
 
             <action android:id="@+id/action_showDetailsFragment_to_addReviewBottomSheetFragment"
-                app:destination="@id/addReviewBottomSheetFragment" app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:destination="@id/addReviewBottomSheetFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+            <argument
+                android:name="show_id"
+                app:argType="integer"/>
 
             <argument
                 android:name="username"
@@ -76,6 +89,22 @@
             android:name="com.doda.shows.AddReviewBottomSheetFragment"
             android:label="fragment_add_review_bottom_sheet"
             tools:layout="@layout/fragment_add_review_bottom_sheet">
+        </dialog>
+
+        <dialog
+            android:id="@+id/profileBottomSheetFragment"
+            android:name="com.doda.shows.ProfileBottomSheetFragment"
+            android:label="ProfileBottomSheetFragment"
+            tools:layout="@layout/fragment_profile_bottom_sheet">
+
+            <argument
+                android:name="username"
+                app:argType="string"/>
+
+            <action
+                android:id="@+id/action_profileBottomSheetFragment_to_main"
+                app:destination="@id/loginFragment"/>
+
         </dialog>
 
     </navigation>

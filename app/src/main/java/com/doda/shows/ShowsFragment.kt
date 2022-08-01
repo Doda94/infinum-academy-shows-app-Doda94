@@ -4,12 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.databinding.FragmentShowsBinding
+
+private const val PP_CHANGE_KEY = "ppChangeKey"
+private const val PP_CHANGE = "ppChange"
 
 class ShowsFragment : Fragment() {
 
@@ -20,6 +28,8 @@ class ShowsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: ShowsAdapter
+
+    private val viewModel by viewModels<ShowsViewModel>()
 
     private val args by navArgs<ShowsFragmentArgs>()
 
@@ -34,20 +44,49 @@ class ShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        shows = listOf(
-            Show("0", "TheOffice", getString(R.string.TheOffice_description), R.drawable.ic_office),
-            Show("1", "Stranger Things", getString(R.string.StrangerThings_description), R.drawable.ic_stranger_things),
-        )
+        viewModel.showsliveData.observe(viewLifecycleOwner) { showsLiveData ->
+            shows = showsLiveData
+            initShowsRecycler()
+        }
 
-        initShowsRecycler()
+        loadAvatar(binding.profileBottomSheet)
         initLoadShowsButton()
-        initlogOutButton()
+        initProfileBottomSheetButton()
+        initFragmentResultListener()
+
+    }
+
+    private fun initFragmentResultListener() {
+        setFragmentResultListener(PP_CHANGE_KEY) { _, bundle ->
+            val ppChange = bundle.getBoolean(PP_CHANGE)
+            if (ppChange) {
+                loadAvatar(binding.profileBottomSheet)
+            }
+        }
+    }
+
+    private fun initProfileBottomSheetButton() {
+        binding.profileBottomSheet.setOnClickListener {
+            val directions = ShowsFragmentDirections.actionShowsFragmentToProfileBottomSheetFragment2(args.username)
+            findNavController().navigate(directions)
+        }
+    }
+
+    private fun loadAvatar(imageView: ImageView) {
+        Glide
+            .with(requireContext())
+            .load(FileUtil.getImageFile(requireContext()))
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(imageView)
+
     }
 
     private fun initShowsRecycler() {
         adapter = ShowsAdapter(shows) { show ->
             val username = args.username
             val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(
+                adapter.getShowId(show),
                 username,
                 adapter.getShowName(show),
                 adapter.getShowDesc(show),
@@ -67,12 +106,6 @@ class ShowsFragment : Fragment() {
             binding.showsRecyclerView.isVisible = true
             binding.loadShowsButton.isVisible = false
             binding.loadShowsText.isVisible = false
-        }
-    }
-
-    private fun initlogOutButton() {
-        binding.logOutButton.setOnClickListener {
-            findNavController().popBackStack()
         }
     }
 

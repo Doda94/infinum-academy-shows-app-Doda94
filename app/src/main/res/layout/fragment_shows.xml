@@ -42,14 +42,15 @@
                     app:layout_collapseMode="pin"
                     app:title="@string/app_name">
 
-                    <ImageButton
-                        android:id="@+id/log_out_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_bottom_sheet"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="end"
-                        android:src="@drawable/ic_baseline_login_24"
-                        android:background="@color/white"
-                        app:tint="@color/shows_purple"/>
+                        android:clickable="true"
+                        android:src="@drawable/ic_profile_placeholder"
+                        app:civ_border_color="@color/shows_purple"
+                        app:civ_border_width="1dp"/>
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -71,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_empty_space_icon"
-        android:background="@color/transparent"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,5 +89,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/load_shows_button"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

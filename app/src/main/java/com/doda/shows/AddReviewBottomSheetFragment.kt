@@ -4,16 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.doda.shows.databinding.FragmentAddReviewBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-private const val COMMENT = "COMMENT"
-private const val RATING = "RATING"
-private const val REVIEW_KEY = "REVIEW_KEY"
+private const val REVIEW_KEY = "reviewKey"
+private const val COMMENT = "comment"
+private const val RATING = "rating"
 
 class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -39,7 +37,6 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         binding.submitReviewButton.setOnClickListener {
             val rating = binding.writeRatingBar.rating.toInt()
             val comment = binding.reviewTextInputEditText.text.toString()
-            val review = Pair(comment, rating)
             if (rating == 0) {
                 binding.submitReviewButton.error = getString(R.string.rating_error)
             } else {
@@ -56,5 +53,5 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
+    
 }

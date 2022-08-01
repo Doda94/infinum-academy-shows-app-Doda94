@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doda.shows.databinding.FragmentShowDetailsBinding
 
-private const val COMMENT = "COMMENT"
-private const val RATING = "RATING"
-private const val REVIEW_KEY = "REVIEW_KEY"
+private const val REVIEW_KEY = "reviewKey"
+private const val COMMENT = "comment"
+private const val RATING = "rating"
 
 class ShowDetailsFragment : Fragment() {
-
-    private var reviews: List<Review> = listOf()
 
     private var _binding: FragmentShowDetailsBinding? = null
 
@@ -26,7 +25,13 @@ class ShowDetailsFragment : Fragment() {
 
     private lateinit var adapter: ReviewsAdapter
 
+    private val viewModel by viewModels<ShowDetailsViewModel>()
+
     private val args by navArgs<ShowDetailsFragmentArgs>()
+
+    private var rating: Float? = null
+
+    private var numberOfReviews: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,11 +43,8 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initReviewsRecycler()
         addShowInfo()
-        adapter.updateReviews(reviews)
-        showReviews()
+        initReviewsRecycler(listOf())
 
         binding.writeReviewButton.setOnClickListener {
             openReviewBottomSheet()
@@ -52,16 +54,27 @@ class ShowDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        viewModel.ratingLiveData.observe(viewLifecycleOwner) { ratingLiveData ->
+            rating = ratingLiveData
+            binding.reviewsText.text = getString(R.string.rating_bar_text, numberOfReviews, rating)
+            binding.ratingBar.rating = ratingLiveData
+        }
+
+        viewModel.numberOfReviewsLiveData.observe(viewLifecycleOwner) { numberOfReviewsLiveData ->
+            numberOfReviews = numberOfReviewsLiveData
+            binding.reviewsText.text = getString(R.string.rating_bar_text, numberOfReviews, rating)
+        }
+
+        viewModel.reviewLiveData.observe(viewLifecycleOwner) { reviewLiveData ->
+            adapter.updateReviews(reviewLiveData)
+            showReviews()
+        }
+
         initSubmitReviewListener()
 
     }
 
-    private fun openReviewBottomSheet() {
-        val directions = ShowDetailsFragmentDirections.actionShowDetailsFragmentToAddReviewBottomSheetFragment()
-        findNavController().navigate(directions)
-    }
-
-    private fun initReviewsRecycler() {
+    private fun initReviewsRecycler(reviews: List<Review>) {
         adapter = ReviewsAdapter(reviews)
 
         binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -80,9 +93,17 @@ class ShowDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateRatingBar() {
-        binding.reviewsText.text = getString(R.string.rating_bar_text, adapter.itemCount, adapter.average)
-        binding.ratingBar.rating = adapter.average
+    private fun openReviewBottomSheet() {
+        val directions = ShowDetailsFragmentDirections.actionShowDetailsFragmentToAddReviewBottomSheetFragment()
+        findNavController().navigate(directions)
+    }
+
+    private fun initSubmitReviewListener() {
+        parentFragmentManager.setFragmentResultListener(REVIEW_KEY, this) { _, bundle ->
+            val comment = bundle.getString(COMMENT)
+            val rating = bundle.getInt(RATING)
+            viewModel.addReview(Review(args.username, rating, comment.toString()))
+        }
     }
 
     private fun addShowInfo() {
@@ -91,16 +112,6 @@ class ShowDetailsFragment : Fragment() {
         val imageResourceId: Int = args.showImg
         binding.showMenuImage.setImageResource(imageResourceId)
         binding.showMenuDescription.text = args.showDesc
-    }
-
-    private fun initSubmitReviewListener() {
-        parentFragmentManager.setFragmentResultListener(REVIEW_KEY, this) { _, bundle ->
-            val comment = bundle.getString(COMMENT)
-            val rating = bundle.getInt(RATING)
-            adapter.addReview(Review(args.username, rating, comment.toString()))
-            updateRatingBar()
-            showReviews()
-        }
     }
 
     override fun onDestroyView() {
