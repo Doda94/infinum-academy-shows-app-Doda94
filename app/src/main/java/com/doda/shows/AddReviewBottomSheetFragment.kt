@@ -11,6 +11,10 @@ import androidx.navigation.fragment.navArgs
 import com.doda.shows.databinding.FragmentAddReviewBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+private const val REVIEW_KEY = "reviewKey"
+private const val COMMENT = "comment"
+private const val RATING = "rating"
+
 class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentAddReviewBottomSheetBinding? = null
@@ -35,14 +39,13 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
         binding.submitReviewButton.setOnClickListener {
             val rating = binding.writeRatingBar.rating.toInt()
             val comment = binding.reviewTextInputEditText.text.toString()
-            val review = Pair(comment, rating)
             if (rating == 0) {
                 binding.submitReviewButton.error = getString(R.string.rating_error)
             } else {
                 val bundle = Bundle()
-                bundle.putString("comment", comment)
-                bundle.putInt("rating", rating)
-                setFragmentResult("reviewKey", bundle)
+                bundle.putString(COMMENT, comment)
+                bundle.putInt(RATING, rating)
+                setFragmentResult(REVIEW_KEY, bundle)
                 findNavController().popBackStack()
             }
         }

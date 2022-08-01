@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.databinding.FragmentShowsBinding
 
+private const val PP_CHANGE_KEY = "ppChangeKey"
+private const val PP_CHANGE = "ppChange"
+
 class ShowsFragment : Fragment() {
 
     private lateinit var shows: List<Show>
@@ -42,7 +45,7 @@ class ShowsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.showsliveData.observe(viewLifecycleOwner) { showsLiveData ->
-            shows= showsLiveData
+            shows = showsLiveData
             initShowsRecycler()
         }
 
@@ -53,10 +56,10 @@ class ShowsFragment : Fragment() {
 
     }
 
-    private fun initFragmentResultListener(){
-        setFragmentResultListener("ppChangeKey"){ _, bundle ->
-            val ppChange = bundle.getBoolean("ppChange")
-            if (ppChange){
+    private fun initFragmentResultListener() {
+        setFragmentResultListener(PP_CHANGE_KEY) { _, bundle ->
+            val ppChange = bundle.getBoolean(PP_CHANGE)
+            if (ppChange) {
                 loadAvatar(binding.profileBottomSheet)
             }
         }
@@ -69,13 +72,14 @@ class ShowsFragment : Fragment() {
         }
     }
 
-    private fun loadAvatar(imageView: ImageView){
+    private fun loadAvatar(imageView: ImageView) {
         Glide
             .with(requireContext())
             .load(FileUtil.getImageFile(requireContext()))
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(imageView)
+
     }
 
     private fun initShowsRecycler() {

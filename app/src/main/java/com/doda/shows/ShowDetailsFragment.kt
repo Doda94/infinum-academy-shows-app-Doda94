@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doda.shows.databinding.FragmentShowDetailsBinding
 
+private const val REVIEW_KEY = "reviewKey"
+private const val COMMENT = "comment"
+private const val RATING = "rating"
+
 class ShowDetailsFragment : Fragment() {
 
     private var _binding: FragmentShowDetailsBinding? = null
@@ -24,6 +28,10 @@ class ShowDetailsFragment : Fragment() {
     private val viewModel by viewModels<ShowDetailsViewModel>()
 
     private val args by navArgs<ShowDetailsFragmentArgs>()
+
+    private var rating: Float? = null
+
+    private var numberOfReviews: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +54,18 @@ class ShowDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        viewModel.ratingLiveData.observe(viewLifecycleOwner) { ratingLiveData ->
+            rating = ratingLiveData
+            binding.reviewsText.text = getString(R.string.rating_bar_text, numberOfReviews, rating)
+        }
+
+        viewModel.numberOfReviewsLiveData.observe(viewLifecycleOwner) { numberOfReviewsLiveData ->
+            numberOfReviews = numberOfReviewsLiveData
+            binding.reviewsText.text = getString(R.string.rating_bar_text, numberOfReviews, rating)
+        }
+
         viewModel.reviewLiveData.observe(viewLifecycleOwner) { reviewLiveData ->
             adapter.updateReviews(reviewLiveData)
-            updateRatingBar()
             showReviews()
         }
 
@@ -56,7 +73,7 @@ class ShowDetailsFragment : Fragment() {
 
     }
 
-    private fun initReviewsRecycler(reviews : List<Review>) {
+    private fun initReviewsRecycler(reviews: List<Review>) {
         adapter = ReviewsAdapter(reviews)
 
         binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -66,11 +83,6 @@ class ShowDetailsFragment : Fragment() {
         binding.reviewsRecyclerView.addItemDecoration(
             DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         )
-    }
-
-    private fun updateRatingBar() {
-        binding.ratingBar.rating = viewModel.getAverage()
-        binding.reviewsText.text = getString(R.string.rating_bar_text, viewModel.getNumberOfReviews(), viewModel.getAverage())
     }
 
     private fun showReviews() {
@@ -86,14 +98,14 @@ class ShowDetailsFragment : Fragment() {
     }
 
     private fun initSubmitReviewListener() {
-        parentFragmentManager.setFragmentResultListener("reviewKey", this) { _, bundle ->
-            val comment = bundle.getString("comment")
-            val rating = bundle.getInt("rating")
+        parentFragmentManager.setFragmentResultListener(REVIEW_KEY, this) { _, bundle ->
+            val comment = bundle.getString(COMMENT)
+            val rating = bundle.getInt(RATING)
             viewModel.addReview(Review(args.username, rating, comment.toString()))
         }
     }
 
-   private fun addShowInfo() {
+    private fun addShowInfo() {
         binding.toolbarLayout.title = args.showName
         // TODO: add blank img
         val imageResourceId: Int = args.showImg
