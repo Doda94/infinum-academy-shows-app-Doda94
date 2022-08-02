@@ -69,40 +69,38 @@ class ShowDetailsFragment : Fragment() {
 
     }
 
-    private fun initReviewTextLiveDataObserver(){
+    private fun initReviewTextLiveDataObserver() {
         var rating = 0F
         var numOfReviews = 0
-        viewModel.showRatingLiveData.observe(viewLifecycleOwner){ ratingLiveData ->
+        viewModel.showRatingLiveData.observe(viewLifecycleOwner) { ratingLiveData ->
             rating = ratingLiveData
             binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
         }
-        viewModel.showReviewsNumLiveData.observe(viewLifecycleOwner){ reviewsNumLiveData ->
+        viewModel.showReviewsNumLiveData.observe(viewLifecycleOwner) { reviewsNumLiveData ->
             numOfReviews = reviewsNumLiveData
             binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
         }
         binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
     }
 
-    private fun initReviewsLiveDataObserver(){
-        reviewViewModel.reviewsLiveData.observe(viewLifecycleOwner){ reviewsLiveData ->
+    private fun initReviewsLiveDataObserver() {
+        reviewViewModel.reviewsLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
-            if (reviews.size > 0){
-                showReviews()
-            }
             adapter.updateReviews(reviews)
+            showReviews()
         }
     }
 
     private fun initReviewsRecycler(reviews: Array<Review>) {
-                adapter = ReviewsAdapter(reviews)
+        adapter = ReviewsAdapter(reviews)
 
-                binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-                binding.reviewsRecyclerView.adapter = adapter
+        binding.reviewsRecyclerView.adapter = adapter
 
-                binding.reviewsRecyclerView.addItemDecoration(
-                    DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-                )
+        binding.reviewsRecyclerView.addItemDecoration(
+            DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+        )
     }
 
     private fun showReviews() {

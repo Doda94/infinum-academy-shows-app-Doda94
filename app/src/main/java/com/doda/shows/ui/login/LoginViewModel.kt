@@ -13,6 +13,7 @@ import retrofit2.Response
 private const val ACCESS_TOKEN = "ACCESS_TOKEN"
 private const val USER_EMAIL = "USER_EMAIL"
 private const val CLIENT = "CLIENT"
+private const val IMAGE_URL = "IMAGE_URL"
 private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class LoginViewModel : ViewModel() {
@@ -29,10 +30,12 @@ class LoginViewModel : ViewModel() {
         ApiModule.retrofit.login(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 loginResultLiveData.value = response.isSuccessful
+                val body = response.body()
                 sharedPreferences.edit {
                     putString(ACCESS_TOKEN, response.headers()["access-token"])
                     putString(CLIENT, response.headers()["client"])
                     putString(USER_EMAIL, response.headers()["uid"])
+                    putString(IMAGE_URL, body?.user?.imageUrl)
                 }
             }
 

@@ -13,9 +13,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.ApiModule
 import com.doda.shows.BuildConfig
 import com.doda.shows.FileUtil
+import com.doda.shows.R
+import com.doda.shows.UserViewModel
 import com.doda.shows.databinding.FragmentProfileBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.File
@@ -43,9 +47,12 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    private val userViewModel by viewModels<UserViewModel>()
+
     private fun openCamera() {
         photoFile = FileUtil.createImageFile(requireContext())!!
-        photoFile?.let {
+        FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", photoFile)
+        photoFile.let {
             val fileUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", it)
             resultLauncher.launch(fileUri)
         }
@@ -54,25 +61,25 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
             if (result) {
-                val request = photoFile.asRequestBody("multipart/form-data".toMediaType())
-                ApiModule.retrofit.profilePhotoUpload(MultipartBody.Part.createFormData("avatar", "avatar.jpg", request)).enqueue(object : retrofit2.Callback<ProfilePhotoUploadResponse>{
-                    override fun onResponse(call: Call<ProfilePhotoUploadResponse>, response: Response<ProfilePhotoUploadResponse>) {
-                        if (!response.isSuccessful){
-
+                val file = FileUtil.getImageFile(requireContext())
+                val request = file?.asRequestBody("multipart/form-data".toMediaType())
+                ApiModule.retrofit.profilePhotoUpload(MultipartBody.Part.createFormData("image", file?.name, request!!))
+                    .enqueue(object : retrofit2.Callback<ProfilePhotoUploadResponse> {
+                        override fun onResponse(call: Call<ProfilePhotoUploadResponse>, response: Response<ProfilePhotoUploadResponse>) {
+                            if (response.isSuccessful) {
+                                setFragmentResult(PP_CHANGE_KEY, bundleOf(PP_CHANGE to true))
+                                findNavController().popBackStack()
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<ProfilePhotoUploadResponse>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
+                        override fun onFailure(call: Call<ProfilePhotoUploadResponse>, t: Throwable) {
+                            TODO("Not yet implemented")
+                        }
 
-                })
-                setFragmentResult(PP_CHANGE_KEY, bundleOf(PP_CHANGE to true))
-                findNavController().popBackStack()
+                    })
+
             }
         }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,6 +94,8 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         binding.profileNameBottomSheet.text = sharedPreferences.getString(USER_EMAIL, null)
 
+        loadAvatar()
+
         binding.changeProfilePictureButton.setOnClickListener {
             openCamera()
         }
@@ -100,6 +109,29 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
             findNavController().navigate(directions)
         }
 
+    }
+
+    private fun loadAvatar() {
+        var imgUrl: String? = null
+        userViewModel.updateUser(requireContext())
+        userViewModel.imageUrlLiveData.observe(viewLifecycleOwner) { imageUrlLiveData ->
+            imgUrl = imageUrlLiveData
+            if (imgUrl != null) {
+                Glide
+                    .with(requireContext())
+                    .load(imgUrl)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(binding.profilePictureBottomSheet)
+            } else {
+                Glide
+                    .with(requireContext())
+                    .load(R.drawable.ic_profile_placeholder)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(binding.profilePictureBottomSheet)
+            }
+        }
     }
 
 }

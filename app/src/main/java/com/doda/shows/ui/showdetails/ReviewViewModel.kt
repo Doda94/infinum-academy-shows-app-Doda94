@@ -1,6 +1,5 @@
 package com.doda.shows.ui.showdetails
 
-import android.media.Rating
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +24,7 @@ class ReviewViewModel : ViewModel() {
                     val body = response.body()
                     if (body != null) {
                         reviews = body.reviews
+                        // TODO (Data is not being observed)
                         _reviewsLiveData.value = reviews
                     }
                 }

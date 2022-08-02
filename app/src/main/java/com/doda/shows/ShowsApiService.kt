@@ -41,7 +41,10 @@ interface ShowsApiService {
     fun review(@Body request: ReviewRequest): Call<ReviewResponse>
 
     @Multipart
-    @POST("/users")
+    @PUT("/users")
     fun profilePhotoUpload(@Part img: MultipartBody.Part): Call<ProfilePhotoUploadResponse>
+
+    @GET("/users/me")
+    fun getUser(): Call<UserResponse>
 
 }
