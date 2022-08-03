@@ -30,7 +30,7 @@ class ShowDetailsFragment : Fragment() {
 
     private var show: Show? = null
 
-    private var reviews = arrayOf<Review>()
+    private var reviews = listOf<Review>()
 
     private lateinit var adapter: ReviewsAdapter
 
@@ -95,7 +95,7 @@ class ShowDetailsFragment : Fragment() {
         }
     }
 
-    private fun initReviewsRecycler(reviews: Array<Review>) {
+    private fun initReviewsRecycler(reviews: List<Review>) {
         adapter = ReviewsAdapter(reviews)
 
         binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(activity)

@@ -8,7 +8,7 @@ import com.doda.shows.Review
 import com.doda.shows.databinding.ItemReviewBinding
 
 class ReviewsAdapter(
-    private var items: Array<Review>
+    private var items: List<Review>
 ) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
@@ -20,7 +20,7 @@ class ReviewsAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun updateReviews(reviews: Array<Review>){
+    fun updateReviews(reviews: List<Review>){
         items = reviews
         notifyDataSetChanged()
     }

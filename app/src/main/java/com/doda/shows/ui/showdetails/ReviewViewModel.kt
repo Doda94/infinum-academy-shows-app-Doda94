@@ -11,11 +11,11 @@ import retrofit2.Response
 
 class ReviewViewModel : ViewModel() {
 
-    private var reviews = arrayOf<Review>()
+    private var reviews = listOf<Review>()
 
     private var _reviewsLiveData = MutableLiveData(reviews)
 
-    val reviewsLiveData: LiveData<Array<Review>> = _reviewsLiveData
+    val reviewsLiveData: LiveData<List<Review>> = _reviewsLiveData
 
     fun loadReviews(id: Int) {
         ApiModule.retrofit.reviews(id).enqueue(object : Callback<ReviewsResponse> {
