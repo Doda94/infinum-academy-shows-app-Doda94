@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.doda.shows.ApiModule
 import com.doda.shows.R
@@ -114,9 +115,15 @@ class ShowDetailsFragment : Fragment() {
     }
 
     private fun addShowInfo(show: Show) {
+        val drawable = CircularProgressDrawable(binding.showMenuImage.context)
+        drawable.setColorSchemeColors(R.color.shows_purple)
+        drawable.centerRadius = 100f
+        drawable.strokeWidth = 5f
+        drawable.start()
         binding.toolbarLayout.title = show.title
         Glide.with(binding.showMenuImage.context)
             .load(show.img_url)
+            .placeholder(drawable)
             .into(binding.showMenuImage)
         binding.showMenuDescription.text = show.desc
         if (show.no_of_reviews > 0 && show.average_rating != null) {
