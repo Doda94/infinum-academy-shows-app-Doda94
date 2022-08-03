@@ -1,5 +1,6 @@
 package com.doda.shows.ui.shows
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.doda.shows.databinding.FragmentShowsBinding
 
 private const val PP_CHANGE_KEY = "ppChangeKey"
 private const val PP_CHANGE = "ppChange"
+private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class ShowsFragment : Fragment() {
 
@@ -54,7 +56,7 @@ class ShowsFragment : Fragment() {
             initShowsRecycler()
         }
 
-        ApiModule.initRetrofit(requireContext())
+        ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
 
         initLoadShowsButton()
         initProfileBottomSheetButton()
@@ -81,7 +83,7 @@ class ShowsFragment : Fragment() {
 
     private fun loadAvatar(imageView: ImageView) {
         var imgUrl: String? = null
-        userViewModel.updateUser(requireContext())
+        userViewModel.updateUser(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         userViewModel.imageUrlLiveData.observe(viewLifecycleOwner) { imageUrlLiveData ->
             imgUrl = imageUrlLiveData
             if (imgUrl != null) {

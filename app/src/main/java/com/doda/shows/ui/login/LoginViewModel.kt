@@ -1,6 +1,7 @@
 package com.doda.shows.ui.login
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,8 +25,7 @@ class LoginViewModel : ViewModel() {
         return loginResultLiveData
     }
 
-    fun onLoginButtonClicked(email: String, password: String, context: Context) {
-        val sharedPreferences = context.getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+    fun onLoginButtonClicked(email: String, password: String, sharedPreferences: SharedPreferences) {
         val loginRequest = LoginRequest(email, password)
         ApiModule.retrofit.login(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {

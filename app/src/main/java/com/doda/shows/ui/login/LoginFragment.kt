@@ -74,8 +74,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
 
-        ApiModule.initRetrofit(requireContext())
+        ApiModule.initRetrofit(sharedPreferences)
 
         disableButton(binding.loginButton)
         initEmailListener()
@@ -101,19 +102,19 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun initRegisterButtonListener(){
-        binding.registerButton.setOnClickListener{
+    private fun initRegisterButtonListener() {
+        binding.registerButton.setOnClickListener {
             val directions = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             findNavController().navigate(directions)
         }
     }
 
-    private fun initLoginLiveDataObserver(){
-        viewModel.getLoginResultLiveData().observe(viewLifecycleOwner){ isSuccessful ->
-            if (isSuccessful){
+    private fun initLoginLiveDataObserver() {
+        viewModel.getLoginResultLiveData().observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
                 val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph()
                 findNavController().navigate(directions)
-            }else{
+            } else {
                 Toast.makeText(requireContext(), "Wrong credentials!", Toast.LENGTH_SHORT).show()
             }
 
@@ -124,7 +125,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            viewModel.onLoginButtonClicked(email, password, requireContext())
+            viewModel.onLoginButtonClicked(email, password, sharedPreferences)
         }
     }
 
@@ -156,7 +157,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun skipLogin() {
-        sharedPreferences = requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val rememberMe = sharedPreferences.getBoolean(REMEMBER_ME, false)
         if (rememberMe) {
             val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph()

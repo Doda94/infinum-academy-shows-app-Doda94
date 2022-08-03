@@ -1,5 +1,6 @@
 package com.doda.shows.ui.showdetails
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.doda.shows.R
 import com.doda.shows.Review
 import com.doda.shows.Show
 import com.doda.shows.databinding.FragmentShowDetailsBinding
+
+private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class ShowDetailsFragment : Fragment() {
 
@@ -48,7 +51,7 @@ class ShowDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initReviewsRecycler(reviews)
-        ApiModule.initRetrofit(requireContext())
+        ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         viewModel.loadShowDetails(args.id)
         reviewViewModel.loadReviews(args.id.toInt())
 

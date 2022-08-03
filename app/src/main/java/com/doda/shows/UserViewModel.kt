@@ -1,6 +1,7 @@
 package com.doda.shows
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,8 +23,8 @@ class UserViewModel : ViewModel() {
 
     val imageUrlLiveData: LiveData<String> = _imageUrlLiveData
 
-    fun updateUser(context: Context) {
-        ApiModule.initRetrofit(context)
+    fun updateUser(sharedPreferences: SharedPreferences) {
+        ApiModule.initRetrofit(sharedPreferences)
         ApiModule.retrofit.getUser().enqueue(object : Callback<UserResponse>{
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 val body = response.body()

@@ -18,14 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-private const val ACCESS_TOKEN = "ACCESS_TOKEN"
-private const val USER_EMAIL = "USER_EMAIL"
-private const val CLIENT = "CLIENT"
-private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
-
 class ShowsViewModel : ViewModel() {
-
-    private val MEDIA_TYPE_JPG = "image/jpg".toMediaType()
 
     var shows = arrayOf<Show>()
 

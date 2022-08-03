@@ -24,10 +24,7 @@ object ApiModule {
 
     lateinit var retrofit: ShowsApiService
 
-    private lateinit var sharedPreferences: SharedPreferences
-
-    fun initRetrofit(context: Context) {
-        sharedPreferences = context.getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+    fun initRetrofit(sharedPreferences: SharedPreferences) {
         val okhttp = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })

@@ -114,7 +114,7 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun loadAvatar() {
         var imgUrl: String? = null
-        userViewModel.updateUser(requireContext())
+        userViewModel.updateUser(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         userViewModel.imageUrlLiveData.observe(viewLifecycleOwner) { imageUrlLiveData ->
             imgUrl = imageUrlLiveData
             if (imgUrl != null) {
