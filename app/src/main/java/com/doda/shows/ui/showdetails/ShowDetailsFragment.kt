@@ -17,8 +17,9 @@ import com.bumptech.glide.Glide
 import com.doda.shows.ApiModule
 import com.doda.shows.R
 import com.doda.shows.Review
-import com.doda.shows.Show
 import com.doda.shows.databinding.FragmentShowDetailsBinding
+import com.doda.shows.Show
+import com.doda.shows.ShowsApplication
 
 private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
@@ -36,8 +37,6 @@ class ShowDetailsFragment : Fragment() {
 
     private val viewModel by viewModels<ShowDetailsViewModel>()
 
-    private val reviewViewModel by viewModels<ReviewViewModel>()
-
     private val args by navArgs<ShowDetailsFragmentArgs>()
 
     override fun onCreateView(
@@ -50,9 +49,13 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val reviewViewModel: ReviewViewModel by viewModels {
+            ReviewViewModelFactory((activity?.application as ShowsApplication).reviewsDatabase)
+        }
         initReviewsRecycler(reviews)
         ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         viewModel.loadShowDetails(args.id)
+        reviewViewModel.updateDbLiveData(args.id)
         reviewViewModel.loadReviews(args.id.toInt())
 
         viewModel.showDetailsLiveData.observe(viewLifecycleOwner) { showDetailsLiveData ->
@@ -60,7 +63,7 @@ class ShowDetailsFragment : Fragment() {
             show?.let { addShowInfo(it) }
         }
 
-        initReviewsLiveDataObserver()
+        initReviewsLiveDataObserver(reviewViewModel)
         initReviewTextLiveDataObserver()
 
         binding.writeReviewButton.setOnClickListener {
@@ -87,10 +90,11 @@ class ShowDetailsFragment : Fragment() {
         binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
     }
 
-    private fun initReviewsLiveDataObserver() {
-        reviewViewModel.reviewsLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
+    private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel) {
+        reviewViewModel.reviewsDbLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
             adapter.updateReviews(reviews)
+            viewModel.loadShowDetails(args.id)
             showReviews()
         }
     }

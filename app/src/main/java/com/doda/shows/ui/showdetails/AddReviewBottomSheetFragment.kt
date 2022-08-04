@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.doda.shows.R
+import com.doda.shows.ShowsApplication
 import com.doda.shows.databinding.FragmentAddReviewBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -17,8 +18,6 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentAddReviewBottomSheetBinding? = null
 
     private val binding get() = _binding!!
-
-    private val viewModel by viewModels<ReviewViewModel>()
 
     private val args by navArgs<AddReviewBottomSheetFragmentArgs>()
 
@@ -32,6 +31,9 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewModel: ReviewViewModel by viewModels {
+            ReviewViewModelFactory((activity?.application as ShowsApplication).reviewsDatabase)
+        }
 
         binding.closeBottomSheetButton.setOnClickListener {
             findNavController().popBackStack()

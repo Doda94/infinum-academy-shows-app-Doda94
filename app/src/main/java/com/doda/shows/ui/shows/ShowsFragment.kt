@@ -12,14 +12,16 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.ApiModule
 import com.doda.shows.R
 import com.doda.shows.Show
+import com.doda.shows.ShowsApplication
+import com.doda.shows.ShowsViewModelFactory
 import com.doda.shows.UserViewModel
 import com.doda.shows.databinding.FragmentShowsBinding
+import com.doda.shows.db.ShowsDatabase
 
 private const val PP_CHANGE_KEY = "ppChangeKey"
 private const val PP_CHANGE = "ppChange"
@@ -29,13 +31,13 @@ class ShowsFragment : Fragment() {
 
     private lateinit var shows: Array<Show>
 
+    private var showsDb: Array<Show> = arrayOf()
+
     private var _binding: FragmentShowsBinding? = null
 
     private val binding get() = _binding!!
 
     private lateinit var adapter: ShowsAdapter
-
-    private val viewModel by viewModels<ShowsViewModel>()
 
     private val userViewModel by viewModels<UserViewModel>()
 
@@ -49,19 +51,23 @@ class ShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadAvatar(binding.profileBottomSheet)
-
-        viewModel.showsliveData.observe(viewLifecycleOwner) { showsLiveData ->
-            shows = showsLiveData
-            initShowsRecycler()
+        val viewModel: ShowsViewModel by viewModels {
+            ShowsViewModelFactory((activity?.application as ShowsApplication).database)
         }
 
         ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
+        viewModel.onGetShowsButtonClicked()
+        viewModel.updateDBLiveData()
+        loadAvatar(binding.profileBottomSheet)
 
-        initLoadShowsButton()
+        viewModel.showsDbLiveData.observe(viewLifecycleOwner) { showsDbLiveData ->
+            shows = showsDbLiveData
+            initShowsRecycler(shows)
+            loadShows(shows)
+        }
+
         initProfileBottomSheetButton()
         initFragmentResultListener()
-
 
     }
 
@@ -104,8 +110,8 @@ class ShowsFragment : Fragment() {
         }
     }
 
-    private fun initShowsRecycler() {
-        adapter = ShowsAdapter(shows) { show ->
+    private fun initShowsRecycler(showsArray: Array<Show>) {
+        adapter = ShowsAdapter(showsArray) { show ->
             val directions = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(show.id)
             findNavController().navigate(directions)
         }
@@ -114,14 +120,21 @@ class ShowsFragment : Fragment() {
         binding.showsRecyclerView.adapter = adapter
     }
 
-    private fun initLoadShowsButton() {
-        binding.loadShowsButton.setOnClickListener {
-            viewModel.onGetShowsButtonClicked()
-            adapter.loadShows(shows)
-            binding.showsRecyclerView.isVisible = true
-            binding.loadShowsButton.isVisible = false
-            binding.loadShowsText.isVisible = false
-        }
+//        private fun initLoadShowsButton(viewModel: ShowsViewModel) {
+//            binding.loadShowsButton.setOnClickListener {
+//                viewModel.onGetShowsButtonClicked()
+//                adapter.loadShows(shows)
+//                binding.showsRecyclerView.isVisible = true
+//                binding.loadShowsButton.isVisible = false
+//                binding.loadShowsText.isVisible = false
+//            }
+//        }
+
+    private fun loadShows(showsArray: Array<Show>){
+        adapter.loadShows(shows)
+        binding.showsRecyclerView.isVisible = true
+        binding.loadShowsButton.isVisible = false
+        binding.loadShowsText.isVisible = false
     }
 
     override fun onDestroyView() {

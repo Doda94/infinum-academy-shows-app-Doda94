@@ -5,17 +5,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.doda.shows.ApiModule
 import com.doda.shows.Review
+import com.doda.shows.db.ReviewsDAO
+import com.doda.shows.db.ReviewsDatabase
+import java.util.concurrent.Executors
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReviewViewModel : ViewModel() {
+class ReviewViewModel(
+    private val database: ReviewsDatabase
+) : ViewModel() {
 
     private var reviews = arrayOf<Review>()
 
-    private var _reviewsLiveData = MutableLiveData(reviews)
+    private lateinit var _reviewsDbLiveData: LiveData<Array<Review>>
 
-    val reviewsLiveData: LiveData<Array<Review>> = _reviewsLiveData
+    lateinit var reviewsDbLiveData: LiveData<Array<Review>>
+
+    fun updateDbLiveData(showId: String) {
+        _reviewsDbLiveData = database.reviewsDAO().getShowReviews(showId)
+        reviewsDbLiveData = _reviewsDbLiveData
+    }
 
     fun loadReviews(id: Int) {
         ApiModule.retrofit.reviews(id).enqueue(object : Callback<ReviewsResponse> {
@@ -24,14 +34,16 @@ class ReviewViewModel : ViewModel() {
                     val body = response.body()
                     if (body != null) {
                         reviews = body.reviews
-                        // TODO (Data is not being observed)
-                        _reviewsLiveData.value = reviews
+                        for (review in reviews) {
+                            Executors.newSingleThreadExecutor().execute {
+                                database.reviewsDAO().insertShowReviews(review)
+                            }
+                        }
                     }
                 }
             }
 
             override fun onFailure(call: Call<ReviewsResponse>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -43,12 +55,14 @@ class ReviewViewModel : ViewModel() {
                 val body = response.body()
                 if (body != null) {
                     reviews += body.review
-                    _reviewsLiveData.value = reviews
+                    Executors.newSingleThreadExecutor().execute {
+                        database.reviewsDAO().insertShowReviews(body.review)
+                    }
                 }
             }
 
             override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                // TODO: error
             }
 
         })

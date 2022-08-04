@@ -32,7 +32,8 @@ class UserViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
+                val a = 5
             }
 
         })

@@ -40,7 +40,6 @@ class ShowDetailsViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<ShowDetailsResponse>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
