@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.doda.shows.LoginFragment"
+        android:name="com.doda.shows.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -16,25 +16,22 @@
             app:destination="@id/shows_nested_graph"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"/>
+
     </fragment>
 
     <navigation
         android:id="@+id/shows_nested_graph"
         app:startDestination="@id/showsFragment">
 
-        <argument
-            android:name="username"
-            app:argType="string"/>
-
         <fragment
             android:id="@+id/showsFragment"
-            android:name="com.doda.shows.ShowsFragment"
+            android:name="com.doda.shows.ui.shows.ShowsFragment"
             android:label="ShowsFragment"
             tools:layout="@layout/fragment_shows">
-
-            <argument
-                android:name="username"
-                app:argType="string"/>
 
             <action
                 android:id="@+id/action_showsFragment_to_showDetailsFragment"
@@ -51,7 +48,7 @@
 
         <fragment
             android:id="@+id/showDetailsFragment"
-            android:name="com.doda.shows.ShowDetailsFragment"
+            android:name="com.doda.shows.ui.showdetails.ShowDetailsFragment"
             android:label="ShowDetailsFragment"
             tools:layout="@layout/fragment_show_details">
 
@@ -61,45 +58,23 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-
-            <argument
-                android:name="show_id"
-                app:argType="integer"/>
-
-            <argument
-                android:name="username"
-                app:argType="string"/>
-
-            <argument
-                android:name="show_name"
-                app:argType="string"/>
-
-            <argument
-                android:name="show_desc"
-                app:argType="string"/>
-
-            <argument
-                android:name="show_img"
-                app:argType="integer"/>
+            <argument android:name="id" app:argType="string"/>
 
         </fragment>
 
         <dialog
             android:id="@+id/addReviewBottomSheetFragment"
-            android:name="com.doda.shows.AddReviewBottomSheetFragment"
+            android:name="com.doda.shows.ui.showdetails.AddReviewBottomSheetFragment"
             android:label="fragment_add_review_bottom_sheet"
             tools:layout="@layout/fragment_add_review_bottom_sheet">
+            <argument android:name="show_id" app:argType="integer"/>
         </dialog>
 
         <dialog
             android:id="@+id/profileBottomSheetFragment"
-            android:name="com.doda.shows.ProfileBottomSheetFragment"
+            android:name="com.doda.shows.ui.shows.ProfileBottomSheetFragment"
             android:label="ProfileBottomSheetFragment"
             tools:layout="@layout/fragment_profile_bottom_sheet">
-
-            <argument
-                android:name="username"
-                app:argType="string"/>
 
             <action
                 android:id="@+id/action_profileBottomSheetFragment_to_main"
@@ -108,5 +83,11 @@
         </dialog>
 
     </navigation>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.doda.shows.ui.register.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register"/>
 
 </navigation>
