@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.doda.shows.ApiModule
-import com.doda.shows.Review
 import com.doda.shows.Show
+import com.doda.shows.db.ShowsDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ShowDetailsViewModel : ViewModel() {
+class ShowDetailsViewModel(private val database: ShowsDatabase) : ViewModel() {
 
     private var show: Show? = null
 
@@ -40,6 +40,15 @@ class ShowDetailsViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<ShowDetailsResponse>, t: Throwable) {
+                _showDetailsLiveData.value = database.showsDAO().getShow(id).value
+                val rating = database.showsDAO().getShow(id).value?.average_rating
+                if (rating != null) {
+                    _showRatingLiveData.value = rating
+                }
+                val numOfReviews = database.showsDAO().getShow(id).value?.no_of_reviews
+                if (numOfReviews != null) {
+                    _showReviewsNumLiveData.value = numOfReviews
+                }
             }
 
         })

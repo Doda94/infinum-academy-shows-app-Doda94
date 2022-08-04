@@ -29,7 +29,7 @@ private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
 class ShowsFragment : Fragment() {
 
-    private lateinit var shows: Array<Show>
+    private var shows: Array<Show> = arrayOf()
 
     private var showsDb: Array<Show> = arrayOf()
 
@@ -66,9 +66,18 @@ class ShowsFragment : Fragment() {
             loadShows(shows)
         }
 
+        initCheckIfShowsAvailable()
         initProfileBottomSheetButton()
         initFragmentResultListener()
 
+    }
+
+    private fun initCheckIfShowsAvailable() {
+        if (shows.isEmpty()){
+            binding.showsRecyclerView.isVisible = false
+            binding.loadShowsButton.isVisible = true
+            binding.loadShowsText.isVisible = true
+        }
     }
 
     private fun initFragmentResultListener() {
@@ -120,18 +129,8 @@ class ShowsFragment : Fragment() {
         binding.showsRecyclerView.adapter = adapter
     }
 
-//        private fun initLoadShowsButton(viewModel: ShowsViewModel) {
-//            binding.loadShowsButton.setOnClickListener {
-//                viewModel.onGetShowsButtonClicked()
-//                adapter.loadShows(shows)
-//                binding.showsRecyclerView.isVisible = true
-//                binding.loadShowsButton.isVisible = false
-//                binding.loadShowsText.isVisible = false
-//            }
-//        }
-
     private fun loadShows(showsArray: Array<Show>){
-        adapter.loadShows(shows)
+        adapter.loadShows(showsArray)
         binding.showsRecyclerView.isVisible = true
         binding.loadShowsButton.isVisible = false
         binding.loadShowsText.isVisible = false

@@ -35,8 +35,6 @@ class ShowDetailsFragment : Fragment() {
 
     private lateinit var adapter: ReviewsAdapter
 
-    private val viewModel by viewModels<ShowDetailsViewModel>()
-
     private val args by navArgs<ShowDetailsFragmentArgs>()
 
     override fun onCreateView(
@@ -52,6 +50,9 @@ class ShowDetailsFragment : Fragment() {
         val reviewViewModel: ReviewViewModel by viewModels {
             ReviewViewModelFactory((activity?.application as ShowsApplication).reviewsDatabase)
         }
+        val viewModel: ShowDetailsViewModel by viewModels {
+            ShowDetailsViewModelFactory((activity?.application as ShowsApplication).database)
+        }
         initReviewsRecycler(reviews)
         ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         viewModel.loadShowDetails(args.id)
@@ -63,8 +64,8 @@ class ShowDetailsFragment : Fragment() {
             show?.let { addShowInfo(it) }
         }
 
-        initReviewsLiveDataObserver(reviewViewModel)
-        initReviewTextLiveDataObserver()
+        initReviewsLiveDataObserver(reviewViewModel, viewModel)
+        initReviewTextLiveDataObserver(viewModel)
 
         binding.writeReviewButton.setOnClickListener {
             openReviewBottomSheet()
@@ -74,9 +75,13 @@ class ShowDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        reviewViewModel.canGetData.observe(viewLifecycleOwner) { canGetData ->
+            binding.writeReviewButton.isEnabled = canGetData
+        }
+
     }
 
-    private fun initReviewTextLiveDataObserver() {
+    private fun initReviewTextLiveDataObserver(viewModel: ShowDetailsViewModel) {
         var rating = 0F
         var numOfReviews = 0
         viewModel.showRatingLiveData.observe(viewLifecycleOwner) { ratingLiveData ->
@@ -90,7 +95,7 @@ class ShowDetailsFragment : Fragment() {
         binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
     }
 
-    private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel) {
+    private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel, viewModel: ShowDetailsViewModel) {
         reviewViewModel.reviewsDbLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
             adapter.updateReviews(reviews)

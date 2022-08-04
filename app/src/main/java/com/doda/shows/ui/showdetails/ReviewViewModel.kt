@@ -27,11 +27,16 @@ class ReviewViewModel(
         reviewsDbLiveData = _reviewsDbLiveData
     }
 
+    private var _canGetData = MutableLiveData(true)
+
+    val canGetData: LiveData<Boolean> = _canGetData
+
     fun loadReviews(id: Int) {
         ApiModule.retrofit.reviews(id).enqueue(object : Callback<ReviewsResponse> {
             override fun onResponse(call: Call<ReviewsResponse>, response: Response<ReviewsResponse>) {
                 if (response.isSuccessful) {
                     val body = response.body()
+                    _canGetData.value = true
                     if (body != null) {
                         reviews = body.reviews
                         for (review in reviews) {
@@ -44,6 +49,7 @@ class ReviewViewModel(
             }
 
             override fun onFailure(call: Call<ReviewsResponse>, t: Throwable) {
+                _canGetData.value = false
             }
 
         })
