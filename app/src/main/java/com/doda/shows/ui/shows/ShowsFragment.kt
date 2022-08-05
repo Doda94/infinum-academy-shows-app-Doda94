@@ -31,8 +31,6 @@ class ShowsFragment : Fragment() {
 
     private var shows: Array<Show> = arrayOf()
 
-    private var showsDb: Array<Show> = arrayOf()
-
     private var _binding: FragmentShowsBinding? = null
 
     private val binding get() = _binding!!
@@ -60,16 +58,20 @@ class ShowsFragment : Fragment() {
         viewModel.updateDBLiveData()
         loadAvatar(binding.profileBottomSheet)
 
+
+        initShowsDbLiveDataObserver(viewModel)
+        initCheckIfShowsAvailable()
+        initProfileBottomSheetButton()
+        initFragmentResultListener()
+
+    }
+
+    private fun initShowsDbLiveDataObserver(viewModel: ShowsViewModel){
         viewModel.showsDbLiveData.observe(viewLifecycleOwner) { showsDbLiveData ->
             shows = showsDbLiveData
             initShowsRecycler(shows)
             loadShows(shows)
         }
-
-        initCheckIfShowsAvailable()
-        initProfileBottomSheetButton()
-        initFragmentResultListener()
-
     }
 
     private fun initCheckIfShowsAvailable() {
@@ -105,6 +107,7 @@ class ShowsFragment : Fragment() {
                 Glide
                     .with(requireContext())
                     .load(imgUrl)
+                    .placeholder(R.drawable.ic_profile_placeholder)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(imageView)

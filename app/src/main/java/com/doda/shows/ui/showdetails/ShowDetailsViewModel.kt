@@ -26,11 +26,17 @@ class ShowDetailsViewModel(private val database: ShowsDatabase) : ViewModel() {
 
     val showReviewsNumLiveData: LiveData<Int> = _showReviewsNumLiveData
 
+    private var _canGetShowDetailsLiveData = MutableLiveData(true)
+
+    val canGetShowDetailsLiveData: LiveData<Boolean> = _canGetShowDetailsLiveData
+
+
     fun loadShowDetails(id: String) {
         ApiModule.retrofit.showDetails(id).enqueue(object : Callback<ShowDetailsResponse> {
             override fun onResponse(call: Call<ShowDetailsResponse>, response: Response<ShowDetailsResponse>) {
                 if (response.isSuccessful) {
                     val body = response.body()
+                    _canGetShowDetailsLiveData.value = true
                     if (body != null) {
                         _showDetailsLiveData.value = body.show
                         _showRatingLiveData.value = body.show.average_rating
@@ -40,15 +46,7 @@ class ShowDetailsViewModel(private val database: ShowsDatabase) : ViewModel() {
             }
 
             override fun onFailure(call: Call<ShowDetailsResponse>, t: Throwable) {
-                _showDetailsLiveData.value = database.showsDAO().getShow(id).value
-                val rating = database.showsDAO().getShow(id).value?.average_rating
-                if (rating != null) {
-                    _showRatingLiveData.value = rating
-                }
-                val numOfReviews = database.showsDAO().getShow(id).value?.no_of_reviews
-                if (numOfReviews != null) {
-                    _showReviewsNumLiveData.value = numOfReviews
-                }
+                _canGetShowDetailsLiveData.value = false
             }
 
         })

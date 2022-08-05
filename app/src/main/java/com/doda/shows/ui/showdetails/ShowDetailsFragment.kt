@@ -31,6 +31,8 @@ class ShowDetailsFragment : Fragment() {
 
     private var show: Show? = null
 
+    private var showDb: Show? = null
+
     private var reviews = arrayOf<Review>()
 
     private lateinit var adapter: ReviewsAdapter
@@ -62,6 +64,17 @@ class ShowDetailsFragment : Fragment() {
         viewModel.showDetailsLiveData.observe(viewLifecycleOwner) { showDetailsLiveData ->
             show = showDetailsLiveData
             show?.let { addShowInfo(it) }
+        }
+
+        (activity?.application as ShowsApplication).database.showsDAO().getShow(args.id).observe(viewLifecycleOwner) { showDbLiveData ->
+            if (show == null) {
+                show = showDbLiveData
+                show?.let { addShowInfo(it) }
+            }
+        }
+
+        viewModel.canGetShowDetailsLiveData.observe(viewLifecycleOwner) { canGetShowDetailsLiveData ->
+            binding.writeReviewButton.isEnabled = canGetShowDetailsLiveData
         }
 
         initReviewsLiveDataObserver(reviewViewModel, viewModel)
@@ -98,6 +111,7 @@ class ShowDetailsFragment : Fragment() {
     private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel, viewModel: ShowDetailsViewModel) {
         reviewViewModel.reviewsDbLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
+            reviews = reviews.sortedArrayWith(compareByDescending{it.id}) as Array<Review>
             adapter.updateReviews(reviews)
             viewModel.loadShowDetails(args.id)
             showReviews()
