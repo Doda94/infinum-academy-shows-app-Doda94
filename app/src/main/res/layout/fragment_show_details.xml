@@ -107,15 +107,17 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/reviews_title">
+                    app:layout_constraintTop_toBottomOf="@id/reviews_title"
+                    android:visibility="invisible">
 
                     <TextView
+                        android:id="@+id/no_reviews_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
+                        android:layout_gravity="center_horizontal"
                         android:text="@string/no_reviews"
                         android:textSize="16sp"
-                        android:layout_gravity="center_horizontal"
                         />
 
                 </FrameLayout>
@@ -124,7 +126,7 @@
                     android:id="@+id/reviews_constraint_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/reviews_title">
@@ -194,8 +196,8 @@
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:backgroundTint="@color/shows_purple"
-            app:rippleColor="@color/purple_500"
-            app:cornerRadius="20dp"/>
+            app:cornerRadius="20dp"
+            app:rippleColor="@color/purple_500"/>
 
     </androidx.cardview.widget.CardView>
 

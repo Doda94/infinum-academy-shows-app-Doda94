@@ -75,6 +75,9 @@ class ShowDetailsFragment : Fragment() {
 
         viewModel.canGetShowDetailsLiveData.observe(viewLifecycleOwner) { canGetShowDetailsLiveData ->
             binding.writeReviewButton.isEnabled = canGetShowDetailsLiveData
+            if (!canGetShowDetailsLiveData && reviews.isNullOrEmpty()) {
+                showEmptyState()
+            }
         }
 
         initReviewsLiveDataObserver(reviewViewModel, viewModel)
@@ -94,6 +97,13 @@ class ShowDetailsFragment : Fragment() {
 
     }
 
+    private fun showEmptyState() {
+        binding.noReviewsText.isVisible = true
+        binding.noReviewsConstraintLayout.isVisible = true
+        binding.reviewsText.isVisible = false
+        binding.ratingBar.isVisible = false
+    }
+
     private fun initReviewTextLiveDataObserver(viewModel: ShowDetailsViewModel) {
         var rating = 0F
         var numOfReviews = 0
@@ -111,7 +121,7 @@ class ShowDetailsFragment : Fragment() {
     private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel, viewModel: ShowDetailsViewModel) {
         reviewViewModel.reviewsDbLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
-            reviews = reviews.sortedArrayWith(compareByDescending{it.id}) as Array<Review>
+            reviews = reviews.sortedArrayWith(compareByDescending { it.id }) as Array<Review>
             adapter.updateReviews(reviews)
             viewModel.loadShowDetails(args.id)
             showReviews()
@@ -131,8 +141,11 @@ class ShowDetailsFragment : Fragment() {
     }
 
     private fun showReviews() {
+        binding.noReviewsText.isVisible = false
         binding.noReviewsConstraintLayout.isVisible = false
-        binding.reviewsConstraintLayout.isVisible = true
+        binding.reviewsText.isVisible = true
+        binding.ratingBar.isVisible = true
+        binding.reviewsRecyclerView.isVisible = true
     }
 
     private fun openReviewBottomSheet() {
