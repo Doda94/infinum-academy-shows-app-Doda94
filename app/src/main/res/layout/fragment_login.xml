@@ -51,6 +51,7 @@
                 app:layout_constraintTop_toBottomOf="@id/top_left_illustration"/>
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

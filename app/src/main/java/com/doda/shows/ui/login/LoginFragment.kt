@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.BounceInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.edit
@@ -75,6 +78,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        animateLogo()
+        animateTitle()
 
         ApiModule.initRetrofit(sharedPreferences)
 
@@ -162,6 +167,26 @@ class LoginFragment : Fragment() {
             val directions = LoginFragmentDirections.actionLoginFragmentToShowsNestedGraph()
             findNavController().navigate(directions)
         }
+    }
+
+    fun animateLogo() = with(binding.logoHorizontalWhite) {
+        translationY = -500f
+        animate()
+            .translationY(0f)
+            .setDuration(1000)
+            .setInterpolator(BounceInterpolator())
+            .start()
+    }
+
+    fun animateTitle() = with(binding.title) {
+        scaleX = 0f
+        scaleY = 0f
+        animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(750)
+            .setInterpolator(AccelerateInterpolator())
+            .start()
     }
 
     override fun onDestroyView() {
