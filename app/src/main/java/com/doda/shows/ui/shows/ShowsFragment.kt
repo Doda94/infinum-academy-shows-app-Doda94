@@ -56,7 +56,8 @@ class ShowsFragment : Fragment() {
         ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         viewModel.onGetShowsButtonClicked()
         viewModel.updateDBLiveData()
-        loadAvatar(binding.profileBottomSheet)
+        binding.toolbar.setTitle(getString(R.string.app_name))
+        loadAvatar()
 
 
         initShowsDbLiveDataObserver(viewModel)
@@ -86,39 +87,24 @@ class ShowsFragment : Fragment() {
         setFragmentResultListener(PP_CHANGE_KEY) { _, bundle ->
             val ppChange = bundle.getBoolean(PP_CHANGE)
             if (ppChange) {
-                loadAvatar(binding.profileBottomSheet)
+                loadAvatar()
             }
         }
     }
 
     private fun initProfileBottomSheetButton() {
-        binding.profileBottomSheet.setOnClickListener {
+        binding.toolbar.binding.profileIcon.setOnClickListener{
             val directions = ShowsFragmentDirections.actionShowsFragmentToProfileBottomSheetFragment2()
             findNavController().navigate(directions)
         }
     }
 
-    private fun loadAvatar(imageView: ImageView) {
+    private fun loadAvatar() {
         var imgUrl: String? = null
         userViewModel.updateUser(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         userViewModel.imageUrlLiveData.observe(viewLifecycleOwner) { imageUrlLiveData ->
             imgUrl = imageUrlLiveData
-            if (imgUrl != null) {
-                Glide
-                    .with(requireContext())
-                    .load(imgUrl)
-                    .placeholder(R.drawable.ic_profile_placeholder)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(imageView)
-            } else {
-                Glide
-                    .with(requireContext())
-                    .load(R.drawable.ic_profile_placeholder)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(imageView)
-            }
+            binding.toolbar.setProfilePhoto(imgUrl)
         }
     }
 

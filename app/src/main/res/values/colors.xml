@@ -9,7 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple_background">#3D1D72</color>
     <color name="button_disabled">#BBBBBB</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
     <color name="shows_purple">#52368C</color>
     <color name="transparent">#00000000</color>
 </resources>
