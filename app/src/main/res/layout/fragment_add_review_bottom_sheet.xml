@@ -30,8 +30,8 @@
 
         <ImageButton
             android:id="@+id/close_bottom_sheet_button"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginEnd="24dp"
             android:src="@drawable/ic_baseline_close_24"
             app:layout_constraintBottom_toBottomOf="@+id/write_a_review_text_view"
@@ -56,10 +56,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/write_a_review_text_view"/>
 
-        <!-- TODO: fix stroke color unfocused -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/review_text_input_layout"
-            style="@style/OutlinedTextInputLayoutBoxBottomSheet"
+            style="@style/OutlinedTextInputLayoutPurple"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"

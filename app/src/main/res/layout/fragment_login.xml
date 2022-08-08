@@ -96,7 +96,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/email_text_field"
-                style="@style/OutlinedTextInputLayoutBoxLoginPage"
+                style="@style/OutlinedTextInputLayoutWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -118,7 +118,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password_text_field"
-                style="@style/OutlinedTextInputLayoutBoxLoginPage"
+                style="@style/OutlinedTextInputLayoutWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
