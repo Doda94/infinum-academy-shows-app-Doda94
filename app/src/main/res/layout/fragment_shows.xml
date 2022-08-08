@@ -16,47 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/Widget.AppCompat.Light.ActionBar">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="@color/white"
-                app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
-                app:contentScrim="@color/white"
-                app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-                app:title="@string/app_name"
-                app:titleCollapseMode="fade"
-                app:titleEnabled="true">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/white"
-                    app:layout_collapseMode="pin"
-                    app:title="@string/app_name">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_bottom_sheet"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="end"
-                        android:clickable="true"
-                        android:src="@drawable/ic_profile_placeholder"
-                        app:civ_border_color="@color/shows_purple"
-                        app:civ_border_width="1dp"/>
-
-                </androidx.appcompat.widget.Toolbar>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
+    <com.doda.shows.ui.ProfileToolbarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shows_recycler_view"

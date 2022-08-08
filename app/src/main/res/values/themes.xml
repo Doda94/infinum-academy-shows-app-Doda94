@@ -31,6 +31,8 @@
         <item name="endIconTint">@color/black</item>
     </style>
 
+    <style name="Buttons" parent=""
+
     <style name="AppBottomSheetDialogTheme"
         parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
