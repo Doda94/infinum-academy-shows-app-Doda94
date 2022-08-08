@@ -51,7 +51,7 @@ class RegisterFragment : Fragment() {
             viewModel.onRegisterButtonClicked(
                 binding.emailEditText.text.toString(),
                 binding.passwordEditText.text.toString(),
-                binding.confrimPasswordEditText.text.toString()
+                binding.confirmPasswordEditText.text.toString()
             )
         }
     }
