@@ -5,15 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.doda.shows.ApiModule
 import com.doda.shows.Review
-import com.doda.shows.db.ReviewsDAO
-import com.doda.shows.db.ReviewsDatabase
+import com.doda.shows.db.ShowsDatabase
 import java.util.concurrent.Executors
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ReviewViewModel(
-    private val database: ReviewsDatabase
+    private val database: ShowsDatabase
 ) : ViewModel() {
 
     private var reviews = arrayOf<Review>()
@@ -23,7 +22,7 @@ class ReviewViewModel(
     lateinit var reviewsDbLiveData: LiveData<Array<Review>>
 
     fun updateDbLiveData(showId: String) {
-        _reviewsDbLiveData = database.reviewsDAO().getShowReviews(showId)
+        _reviewsDbLiveData = database.showsDAO().getShowReviews(showId)
         reviewsDbLiveData = _reviewsDbLiveData
     }
 
@@ -41,7 +40,7 @@ class ReviewViewModel(
                         reviews = body.reviews
                         for (review in reviews) {
                             Executors.newSingleThreadExecutor().execute {
-                                database.reviewsDAO().insertShowReviews(review)
+                                database.showsDAO().insertShowReviews(review)
                             }
                         }
                     }
@@ -62,7 +61,7 @@ class ReviewViewModel(
                 if (body != null) {
                     reviews += body.review
                     Executors.newSingleThreadExecutor().execute {
-                        database.reviewsDAO().insertShowReviews(body.review)
+                        database.showsDAO().insertShowReviews(body.review)
                     }
                 }
             }

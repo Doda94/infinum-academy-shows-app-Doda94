@@ -50,7 +50,7 @@ class ShowDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val reviewViewModel: ReviewViewModel by viewModels {
-            ReviewViewModelFactory((activity?.application as ShowsApplication).reviewsDatabase)
+            ReviewViewModelFactory((activity?.application as ShowsApplication).database)
         }
         val viewModel: ShowDetailsViewModel by viewModels {
             ShowDetailsViewModelFactory((activity?.application as ShowsApplication).database)

@@ -32,7 +32,7 @@ class AddReviewBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewModel: ReviewViewModel by viewModels {
-            ReviewViewModelFactory((activity?.application as ShowsApplication).reviewsDatabase)
+            ReviewViewModelFactory((activity?.application as ShowsApplication).database)
         }
 
         binding.closeBottomSheetButton.setOnClickListener {
