@@ -78,7 +78,9 @@
 
             <action
                 android:id="@+id/action_profileBottomSheetFragment_to_main"
-                app:destination="@id/loginFragment"/>
+                app:destination="@id/loginFragment"
+                app:popUpToInclusive="true"
+                app:popUpTo="@id/showsFragment"/>
 
         </dialog>
 
