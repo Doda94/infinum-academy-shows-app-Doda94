@@ -36,8 +36,6 @@ class ReviewsAdapter(
                 Glide.with(binding.reviewProfileImage.context)
                     .load(item.user.imageUrl)
                     .placeholder(R.drawable.ic_profile_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .into(binding.reviewProfileImage)
             }
         }

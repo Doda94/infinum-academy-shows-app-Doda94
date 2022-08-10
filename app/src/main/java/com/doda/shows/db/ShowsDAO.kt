@@ -27,7 +27,7 @@ interface ShowsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertShowReviews(review: Review)
 
-    @Query("DELETE FROM reviews where show_id is :show_id")
+    @Query("DELETE FROM reviews where show_id IS :show_id")
     fun deleteShowReviews(show_id: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

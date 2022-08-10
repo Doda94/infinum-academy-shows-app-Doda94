@@ -41,10 +41,10 @@ class ReviewViewModel(
     fun loadReviews(id: Int) {
         ApiModule.retrofit.reviews(id).enqueue(object : Callback<ReviewsResponse> {
             override fun onResponse(call: Call<ReviewsResponse>, response: Response<ReviewsResponse>) {
-                Executors.newSingleThreadExecutor().execute {
-                    database.showsDAO().deleteShowReviews(id.toString())
-                }
                 if (response.isSuccessful) {
+                    Executors.newSingleThreadExecutor().execute {
+                        database.showsDAO().deleteShowReviews(id.toString())
+                    }
                     val body = response.body()
                     _canGetData.value = true
                     if (body != null) {
