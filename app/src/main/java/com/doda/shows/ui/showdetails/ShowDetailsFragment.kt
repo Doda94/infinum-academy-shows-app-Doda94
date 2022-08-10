@@ -61,23 +61,23 @@ class ShowDetailsFragment : Fragment() {
         initReviewsRecycler(reviews)
         ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         viewModel.loadShowDetails(args.id)
+        reviewViewModel.loadReviews(args.id.toInt())
         reviewViewModel.updateDbLiveData(args.id)
         Executors.newSingleThreadExecutor().execute {
             reviewViewModel.uploadOfflineReviews(database.showsDAO().getPendingReviews())
         }
-        reviewViewModel.loadReviews(args.id.toInt())
 
         viewModel.showDetailsLiveData.observe(viewLifecycleOwner) { showDetailsLiveData ->
             show = showDetailsLiveData
             show?.let { addShowInfo(it, database) }
         }
 
-        (activity?.application as ShowsApplication).database.showsDAO().getShow(args.id).observe(viewLifecycleOwner) { showDbLiveData ->
-            if (show == null) {
-                show = showDbLiveData
-                show?.let { addShowInfo(it, database) }
-            }
-        }
+//        (activity?.application as ShowsApplication).database.showsDAO().getShow(args.id).observe(viewLifecycleOwner) { showDbLiveData ->
+//            if (show == null) {
+//                show = showDbLiveData
+//                show?.let { addShowInfo(it, database) }
+//            }
+//        }
 
         viewModel.canGetShowDetailsLiveData.observe(viewLifecycleOwner) { canGetShowDetailsLiveData ->
             if (!canGetShowDetailsLiveData && reviews.isEmpty()) {

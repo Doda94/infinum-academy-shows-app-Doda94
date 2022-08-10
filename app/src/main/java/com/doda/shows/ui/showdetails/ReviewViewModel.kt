@@ -49,8 +49,8 @@ class ReviewViewModel(
                     _canGetData.value = true
                     if (body != null) {
                         reviews = body.reviews
-                        for (review in reviews) {
-                            Executors.newSingleThreadExecutor().execute {
+                        Executors.newSingleThreadExecutor().execute {
+                            for (review in reviews) {
                                 database.showsDAO().insertShowReviews(review)
                             }
                         }
