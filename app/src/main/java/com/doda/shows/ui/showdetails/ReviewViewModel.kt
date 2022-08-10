@@ -108,7 +108,6 @@ class ReviewViewModel(
             }
 
             override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
-                // TODO: try to avoid using !!
                 val userId = sharedPreferences.getString(USER_ID, "-1")!!
                 val email = sharedPreferences.getString(USER_EMAIL, "john@doe.com")!!
                 val imageUrl = sharedPreferences.getString(IMAGE_URL, null)
