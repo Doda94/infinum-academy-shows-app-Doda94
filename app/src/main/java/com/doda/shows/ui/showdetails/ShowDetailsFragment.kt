@@ -126,6 +126,7 @@ class ShowDetailsFragment : Fragment() {
     private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel, viewModel: ShowDetailsViewModel, database: ShowsDatabase) {
         reviewViewModel.reviewsDbLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
+            reviews = reviews.sortedArrayWith(compareByDescending { it.id }) as Array<Review>
             adapter.updateReviews(reviews)
             viewModel.loadShowDetails(args.id)
             showReviews()
