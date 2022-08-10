@@ -2,7 +2,6 @@ package com.doda.shows.ui.showdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.doda.shows.db.ReviewsDatabase
 import com.doda.shows.db.ShowsDatabase
 import java.lang.IllegalArgumentException
 

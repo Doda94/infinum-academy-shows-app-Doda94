@@ -197,7 +197,8 @@
             android:textColor="@color/white"
             android:backgroundTint="@color/shows_purple"
             app:cornerRadius="20dp"
-            app:rippleColor="@color/purple_500"/>
+            app:rippleColor="@color/purple_500"
+            android:enabled="true"/>
 
     </androidx.cardview.widget.CardView>
 

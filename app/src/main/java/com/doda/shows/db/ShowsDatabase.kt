@@ -6,13 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.doda.shows.Converters
+import com.doda.shows.PendingReview
 import com.doda.shows.Review
 import com.doda.shows.Show
 
 @Database(
     entities = [
         Show::class,
-        Review::class
+        Review::class,
+        PendingReview::class
     ],
     version = 2
 )

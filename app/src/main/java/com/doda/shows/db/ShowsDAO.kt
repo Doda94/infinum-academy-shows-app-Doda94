@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.doda.shows.PendingReview
 import com.doda.shows.Review
 import com.doda.shows.Show
 
@@ -26,7 +27,22 @@ interface ShowsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertShowReviews(review: Review)
 
-    @Query("DELETE FROM reviews")
-    fun deleteShowReviews()
+    @Query("DELETE FROM reviews where show_id is :show_id")
+    fun deleteShowReviews(show_id: String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPendingShowReviews(review: PendingReview)
+
+    @Query("DELETE FROM pending_reviews")
+    fun deleteAllPendingReviews()
+
+    @Query("SELECT * FROM pending_reviews")
+    fun getPendingReviews(): Array<Review>
+
+    @Query("DELETE FROM pending_reviews WHERE id is :id")
+    fun deletePendingReview(id: String)
+
+    @Query("SELECT * FROM pending_reviews where show_id is :show_id")
+    fun getShowPendingReviews(show_id: Int): LiveData<Array<Review>>
 
 }

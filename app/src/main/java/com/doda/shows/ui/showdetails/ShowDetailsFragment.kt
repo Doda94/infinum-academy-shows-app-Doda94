@@ -20,6 +20,8 @@ import com.doda.shows.Review
 import com.doda.shows.databinding.FragmentShowDetailsBinding
 import com.doda.shows.Show
 import com.doda.shows.ShowsApplication
+import com.doda.shows.db.ShowsDatabase
+import java.util.concurrent.Executors
 
 private const val LOGIN_SHARED_PREFERENCES = "LOGIN"
 
@@ -30,8 +32,6 @@ class ShowDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var show: Show? = null
-
-    private var showDb: Show? = null
 
     private var reviews = arrayOf<Review>()
 
@@ -49,6 +49,9 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val database = (activity?.application as ShowsApplication).database
+
         val reviewViewModel: ReviewViewModel by viewModels {
             ReviewViewModelFactory((activity?.application as ShowsApplication).database)
         }
@@ -59,29 +62,31 @@ class ShowDetailsFragment : Fragment() {
         ApiModule.initRetrofit(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         viewModel.loadShowDetails(args.id)
         reviewViewModel.updateDbLiveData(args.id)
+        Executors.newSingleThreadExecutor().execute {
+            reviewViewModel.uploadOfflineReviews(database.showsDAO().getPendingReviews())
+        }
         reviewViewModel.loadReviews(args.id.toInt())
 
         viewModel.showDetailsLiveData.observe(viewLifecycleOwner) { showDetailsLiveData ->
             show = showDetailsLiveData
-            show?.let { addShowInfo(it) }
+            show?.let { addShowInfo(it, database) }
         }
 
         (activity?.application as ShowsApplication).database.showsDAO().getShow(args.id).observe(viewLifecycleOwner) { showDbLiveData ->
             if (show == null) {
                 show = showDbLiveData
-                show?.let { addShowInfo(it) }
+                show?.let { addShowInfo(it, database) }
             }
         }
 
         viewModel.canGetShowDetailsLiveData.observe(viewLifecycleOwner) { canGetShowDetailsLiveData ->
-            binding.writeReviewButton.isEnabled = canGetShowDetailsLiveData
-            if (!canGetShowDetailsLiveData && reviews.isNullOrEmpty()) {
+            if (!canGetShowDetailsLiveData && reviews.isEmpty()) {
                 showEmptyState()
             }
         }
 
-        initReviewsLiveDataObserver(reviewViewModel, viewModel)
-        initReviewTextLiveDataObserver(viewModel)
+        initReviewsLiveDataObserver(reviewViewModel, viewModel, database)
+        initReviewTextLiveDataObserver(viewModel, database)
 
         binding.writeReviewButton.setOnClickListener {
             openReviewBottomSheet()
@@ -91,9 +96,9 @@ class ShowDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        reviewViewModel.canGetData.observe(viewLifecycleOwner) { canGetData ->
-            binding.writeReviewButton.isEnabled = canGetData
-        }
+        //        reviewViewModel.canGetData.observe(viewLifecycleOwner) { canGetData ->
+        //            //            binding.writeReviewButton.isEnabled = canGetData
+        //        }
 
     }
 
@@ -104,7 +109,7 @@ class ShowDetailsFragment : Fragment() {
         binding.ratingBar.isVisible = false
     }
 
-    private fun initReviewTextLiveDataObserver(viewModel: ShowDetailsViewModel) {
+    private fun initReviewTextLiveDataObserver(viewModel: ShowDetailsViewModel, database: ShowsDatabase) {
         var rating = 0F
         var numOfReviews = 0
         viewModel.showRatingLiveData.observe(viewLifecycleOwner) { ratingLiveData ->
@@ -118,13 +123,14 @@ class ShowDetailsFragment : Fragment() {
         binding.reviewsText.text = getString(R.string.rating_bar_text, numOfReviews, rating)
     }
 
-    private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel, viewModel: ShowDetailsViewModel) {
+    private fun initReviewsLiveDataObserver(reviewViewModel: ReviewViewModel, viewModel: ShowDetailsViewModel, database: ShowsDatabase) {
         reviewViewModel.reviewsDbLiveData.observe(viewLifecycleOwner) { reviewsLiveData ->
             reviews = reviewsLiveData
             reviews = reviews.sortedArrayWith(compareByDescending { it.id }) as Array<Review>
             adapter.updateReviews(reviews)
             viewModel.loadShowDetails(args.id)
             showReviews()
+            show?.let { addShowInfo(it, database) }
         }
     }
 
@@ -153,7 +159,7 @@ class ShowDetailsFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun addShowInfo(show: Show) {
+    private fun addShowInfo(show: Show, database: ShowsDatabase) {
         val drawable = CircularProgressDrawable(binding.showMenuImage.context)
         drawable.setColorSchemeColors(R.color.shows_purple)
         drawable.centerRadius = 100f
@@ -165,10 +171,25 @@ class ShowDetailsFragment : Fragment() {
             .placeholder(drawable)
             .into(binding.showMenuImage)
         binding.showMenuDescription.text = show.desc
-        if (show.no_of_reviews > 0 && show.average_rating != null) {
-            binding.reviewsText.text = getString(R.string.rating_bar_text, show.no_of_reviews, show.average_rating)
-            binding.ratingBar.rating = show.average_rating
-            showReviews()
+        var pendingReviewsRating: Float = 0F
+        var pendingReviewsSize = 0
+        database.showsDAO().getShowPendingReviews(args.id.toInt()).observe(viewLifecycleOwner) { pendingReviews ->
+            for (it in pendingReviews) {
+                pendingReviewsRating += it.rating
+            }
+            pendingReviewsSize = pendingReviews.size
+            pendingReviewsRating /= pendingReviewsSize.toFloat()
+            if ((show.no_of_reviews > 0 && show.average_rating != null) || (pendingReviewsSize > 0)) {
+                var average: Float = show.average_rating!!
+                if (pendingReviewsSize > 0) {
+                    average =
+                        ((((show.no_of_reviews * show.average_rating!!) + (pendingReviewsRating * pendingReviewsSize))) / (pendingReviewsSize + show.no_of_reviews).toFloat())
+                }
+                binding.reviewsText.text =
+                    getString(R.string.rating_bar_text, show.no_of_reviews + pendingReviewsSize, average)
+                binding.ratingBar.rating = average
+                showReviews()
+            }
         }
     }
 

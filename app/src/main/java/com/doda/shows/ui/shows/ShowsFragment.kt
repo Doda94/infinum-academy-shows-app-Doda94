@@ -18,6 +18,7 @@ import com.doda.shows.ShowsApplication
 import com.doda.shows.ShowsViewModelFactory
 import com.doda.shows.UserViewModel
 import com.doda.shows.databinding.FragmentShowsBinding
+import java.util.concurrent.Executors
 
 private const val PP_CHANGE_KEY = "ppChangeKey"
 private const val PP_CHANGE = "ppChange"
@@ -45,6 +46,7 @@ class ShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val viewModel: ShowsViewModel by viewModels {
             ShowsViewModelFactory((activity?.application as ShowsApplication).database)
         }
@@ -54,7 +56,6 @@ class ShowsFragment : Fragment() {
         viewModel.updateDBLiveData()
         binding.toolbar.setTitle(getString(R.string.app_name))
         loadAvatar()
-
 
         initShowsDbLiveDataObserver(viewModel)
         initCheckIfShowsAvailable()
