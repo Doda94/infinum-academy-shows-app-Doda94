@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.doda.shows.ApiModule
+import com.doda.shows.ShowsApplication
 import com.doda.shows.databinding.FragmentLoginBinding
+import java.util.concurrent.Executors
 import java.util.regex.Pattern
 
 private const val REMEMBER_ME = "REMEMBER_ME"
@@ -90,6 +92,9 @@ class LoginFragment : Fragment() {
         initRememberMeListener()
         initRegisterButtonListener()
         initLoginLiveDataObserver()
+
+        val database = (activity?.application as ShowsApplication).database
+        Executors.newSingleThreadExecutor().execute { database.clearAllTables() }
 
     }
 

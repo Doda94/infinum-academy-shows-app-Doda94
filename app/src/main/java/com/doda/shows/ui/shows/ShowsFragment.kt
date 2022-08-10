@@ -5,15 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doda.shows.ApiModule
 import com.doda.shows.R
 import com.doda.shows.Show
@@ -21,7 +18,7 @@ import com.doda.shows.ShowsApplication
 import com.doda.shows.ShowsViewModelFactory
 import com.doda.shows.UserViewModel
 import com.doda.shows.databinding.FragmentShowsBinding
-import com.doda.shows.db.ShowsDatabase
+import java.util.concurrent.Executors
 
 private const val PP_CHANGE_KEY = "ppChangeKey"
 private const val PP_CHANGE = "ppChange"
@@ -49,6 +46,7 @@ class ShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val viewModel: ShowsViewModel by viewModels {
             ShowsViewModelFactory((activity?.application as ShowsApplication).database)
         }
@@ -58,7 +56,6 @@ class ShowsFragment : Fragment() {
         viewModel.updateDBLiveData()
         binding.toolbar.setTitle(getString(R.string.app_name))
         loadAvatar()
-
 
         initShowsDbLiveDataObserver(viewModel)
         initCheckIfShowsAvailable()
@@ -100,7 +97,7 @@ class ShowsFragment : Fragment() {
     }
 
     private fun loadAvatar() {
-        var imgUrl: String? = null
+        var imgUrl: String
         userViewModel.updateUser(requireContext().getSharedPreferences(LOGIN_SHARED_PREFERENCES, Context.MODE_PRIVATE))
         userViewModel.imageUrlLiveData.observe(viewLifecycleOwner) { imageUrlLiveData ->
             imgUrl = imageUrlLiveData

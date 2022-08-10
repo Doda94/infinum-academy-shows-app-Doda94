@@ -17,40 +17,30 @@ class ProfileToolbarView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-): Toolbar(context, attrs, defStyleAttr)  {
+) : Toolbar(context, attrs, defStyleAttr) {
 
     var binding: ViewProfileToolbarBinding
 
-    init{
+    init {
         binding = ViewProfileToolbarBinding.inflate(LayoutInflater.from(context), this)
     }
 
-    fun openBottomSheet(directions: NavDirections){
+    fun openBottomSheet(directions: NavDirections) {
         findNavController().navigate(directions)
     }
 
-    fun setTitle(titleString: String){
+    fun setTitle(titleString: String) {
         binding.toolbarLayout.title = titleString
     }
 
-    fun setProfilePhoto(imgUrl: String?) = with(binding){
-        if (imgUrl != null){
-            Glide
-                .with(context)
-                .load(imgUrl)
-                .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_profile_placeholder))
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(profileIcon)
-        }
-        else{
-            Glide
-                .with(context)
-                .load(ContextCompat.getDrawable(context, R.drawable.ic_profile_placeholder))
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(profileIcon)
-        }
+    fun setProfilePhoto(imgUrl: String) = with(binding) {
+        Glide
+            .with(context)
+            .load(imgUrl)
+            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_profile_placeholder))
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(profileIcon)
     }
 
 }

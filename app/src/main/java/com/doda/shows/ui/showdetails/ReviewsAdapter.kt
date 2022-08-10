@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.doda.shows.R
 import com.doda.shows.Review
 import com.doda.shows.databinding.ItemReviewBinding
 
@@ -33,6 +35,9 @@ class ReviewsAdapter(
             if (item.user.imageUrl != null){
                 Glide.with(binding.reviewProfileImage.context)
                     .load(item.user.imageUrl)
+                    .placeholder(R.drawable.ic_profile_placeholder)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(binding.reviewProfileImage)
             }
         }

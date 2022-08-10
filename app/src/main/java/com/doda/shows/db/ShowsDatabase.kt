@@ -4,15 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.doda.shows.Converters
+import com.doda.shows.PendingReview
+import com.doda.shows.Review
 import com.doda.shows.Show
-import com.doda.shows.ui.shows.ShowsViewModel
 
 @Database(
     entities = [
-        Show::class
+        Show::class,
+        Review::class,
+        PendingReview::class
     ],
-    version = 1
+    version = 2
 )
+@TypeConverters(Converters::class)
 abstract class ShowsDatabase : RoomDatabase() {
 
     companion object {
